@@ -12,9 +12,10 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import modelo.Categoria;
 import modelo.DAOProducto;
-import modelo.DAOCateoria;
 import modelo.Producto;
 import javax.swing.DefaultComboBoxModel;
+import modelo.Categoria;
+import modelo.DA
 
 /**
  *
@@ -60,23 +61,15 @@ public class JFrameStock extends javax.swing.JFrame {
          
     }
       
-      public void llenarComboCat() throws SQLException{
-      
-          List<Categoria> cat = new DAOCateoria().ObtenerCategoria();
-          for (int i = 0; i < cat.size(); i++) {
-              
+     public void llenarComboCat() throws SQLException {
+    DefaultComboBoxModel<Categoria> modeloCombo = new DefaultComboBoxModel<>();
+    List<Categoria> cat = new DAOCategoria().ObtenerCategoria();
+    for (Categoria categoria : cat) {
+        modeloCombo.addElement(categoria);
+    }
+    jComboCategoria.setModel(modeloCombo);
+}
 
-              
-            jComboCategoria.addItem(new Categoria(cat.get(i).getId_categoria(),cat.get(i).getNombreCategoria()));
-                  
-
-                    //  getId_categoria(),
-                    //cat.get(i).getNombreCategoria()));
-              
-          }
-          
-      }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

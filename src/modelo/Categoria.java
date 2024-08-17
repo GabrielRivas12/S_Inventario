@@ -9,14 +9,7 @@ package modelo;
  * @author gabriel rivas
  */
 public class Categoria {
-    
-    //A POCO SI 
-    
-    // prueba de git a ver si funciona esta huevada 
-    
-    // prueba 3 del commit
-    
-    
+
     int id_categoria;
     String nombreCategoria;
 
