@@ -14,6 +14,9 @@ public class Categoria {
     
     // prueba de git a ver si funciona esta huevada 
     
+    // prueba 3 del commit
+    
+    
     int id_categoria;
     String nombreCategoria;
 
