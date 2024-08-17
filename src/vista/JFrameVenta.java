@@ -1,0 +1,895 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package vista;
+
+import modelo.Cliente;
+import modelo.DAOModoPago;
+import modelo.DAOProducto;
+import modelo.DAOVenta;
+import modelo.ModoPago;
+import modelo.Producto;
+import modelo.Venta;
+import java.awt.HeadlessException;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modeloConexion.Conexion;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
+/**
+ *
+ * @author gabriel rivas
+ */
+public class JFrameVenta extends javax.swing.JFrame {
+
+ 
+    
+    private DefaultTableModel modeloTablaVenta;
+    private Object[] objetoVentaTabla = new Object [6];
+    private Double total = 0.0;
+    private int item = 0;
+    private java.sql.Date fech;
+    private int numfac = 0;
+    private int cantidad = 0;
+    private int idproducto;
+
+    
+    public JFrameVenta() throws SQLException {
+        
+        initComponents();
+        ObtenerProductos();
+        
+        this.setLocationRelativeTo(null);
+       
+        jTextCantProducto.setText("0");
+        //jDialogCliente.setLocationRelativeTo(null);
+        jDialogProducto.setLocationRelativeTo(null);
+        //jTextIdCliente.setEnabled(false);
+        //jTextNombreCliente.setEnabled(false);
+        jTextIdProducto.setEnabled(false);
+        
+
+        
+        //jTextproducto.setText("Ingrese el producto");
+        
+        fech = java.sql.Date.valueOf(LocalDate.now());
+        jLabelFecha.setText(fech.toString());
+        
+        //---- LLAMA DEL METODO PARA LLENAR COMBO BOX -------------//
+        try{
+            llenarCombModoPago();
+            
+        }catch(SQLException ex){
+            Logger.getLogger(JFrameVenta.class.getName()).log(Level.
+                    SEVERE, null,ex);
+        }
+         
+        modeloTablaVenta =  (DefaultTableModel) jTableProductosVenta.getModel();
+    }   
+
+    private void ObtenerProductos()throws SQLException{
+    
+         List<Producto> proo = new DAOProducto().ObtenerProducto();
+         
+         DefaultTableModel modelo = new DefaultTableModel();
+         String [] columnas ={"id_producto","nombreProducto","precio","Existencia"};
+         
+         modelo.setColumnIdentifiers(columnas);
+         for(Producto pr: proo){
+             
+             String [] renglon = { Integer.toString(pr.getId_producto()),pr.getNombreProducto(),Double.toString(pr.getPrecio()),Integer.toString(pr.getExistencia())};
+             modelo.addRow(renglon);
+         }jTableBuscarProducto.setModel(modelo);
+         
+         
+    }
+    
+    
+    
+    
+    
+    public void limpiarCamposProductos(){
+        jTextIdProducto.setText("Id");
+        jTextproducto.setText("Nombre Producto");
+        jTextPrecio.setText("Precio");
+        jTextExistenciaProducto.setText("Existencia");
+        jTextCantProducto.setText("Cantidad");
+    }
+    
+    //----------------------Metodo para llenar combobox modo pago------------///
+    public void llenarCombModoPago() throws SQLException{
+   
+    List<ModoPago> modoPago = new DAOModoPago().ObtenerDatos();
+        for (int i = 0; i < modoPago.size(); i++) {
+            
+            jComboModoPago.addItem(new ModoPago(modoPago.
+                    get(i).getNum_pago(),
+                    modoPago.get(i).getNombreModoP()));
+        }
+    }
+    
+   
+    
+    private void buscarDatosProductos(String dato) throws SQLException{
+        List<Producto> productos = new DAOProducto().busquedaProducto(dato);
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        String[] columnas = {"id_producto", "Producto", "Precio","Existencia"};
+        
+        modelo.setColumnIdentifiers(columnas);
+        for (Producto pro: productos) {
+            
+            String[] renglon = {
+                Integer.toString(pro.getId_producto()),
+                pro.getNombreProducto(),
+                Double.toString(pro.getPrecio()),
+                Integer.toString(pro.getExistencia())
+            };
+            modelo.addRow(renglon);
+        }
+        jTableBuscarProducto.setModel(modelo);
+    }   
+    
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jDialogProducto = new javax.swing.JDialog();
+        jPanel7 = new javax.swing.JPanel();
+        jBDbuscarProducto = new javax.swing.JButton();
+        jBDagregarProducto = new javax.swing.JButton();
+        jTextDbuscarProducto = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableBuscarProducto = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jTextIdProducto = new javax.swing.JTextField();
+        jTextPrecio = new javax.swing.JTextField();
+        jTextproducto = new javax.swing.JTextField();
+        jTextExistenciaProducto = new javax.swing.JTextField();
+        jTextCantProducto = new javax.swing.JTextField();
+        jBagregarProducto = new javax.swing.JButton();
+        jBquitaProducto = new javax.swing.JButton();
+        jBbuscarProducto = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabelTotal = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jBguardarVenta = new javax.swing.JButton();
+        jBCancelar = new javax.swing.JButton();
+        jComboModoPago = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTableProductosVenta = new javax.swing.JTable();
+        jLabelFecha = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+
+        jPanel7.setBackground(new java.awt.Color(204, 204, 204));
+
+        jBDbuscarProducto.setText("Buscar");
+        jBDbuscarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBDbuscarProductoActionPerformed(evt);
+            }
+        });
+
+        jBDagregarProducto.setText("Añadir");
+        jBDagregarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBDagregarProductoActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 14)); // NOI18N
+        jLabel3.setText("Buscar Producto");
+
+        jTableBuscarProducto.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nombre", "Precio", "Existencia"
+            }
+        ));
+        jScrollPane3.setViewportView(jTableBuscarProducto);
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jTextDbuscarProducto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBDbuscarProducto)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBDagregarProducto))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(267, 267, 267)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(75, 75, 75))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jButton1)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextDbuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBDbuscarProducto)
+                    .addComponent(jBDagregarProducto))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(162, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialogProductoLayout = new javax.swing.GroupLayout(jDialogProducto.getContentPane());
+        jDialogProducto.getContentPane().setLayout(jDialogProductoLayout);
+        jDialogProductoLayout.setHorizontalGroup(
+            jDialogProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDialogProductoLayout.setVerticalGroup(
+            jDialogProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 70, Short.MAX_VALUE)
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(170, 202, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel4.setBackground(new java.awt.Color(70, 132, 244));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(37, 108, 240), 5));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTextIdProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextIdProducto.setText("ID");
+        jTextIdProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextIdProductoActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jTextIdProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 70, 31));
+
+        jTextPrecio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel4.add(jTextPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 103, 33));
+
+        jTextproducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextproducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextproductoActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jTextproducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 100, 290, 31));
+
+        jTextExistenciaProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel4.add(jTextExistenciaProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 133, 33));
+
+        jTextCantProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextCantProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextCantProductoActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jTextCantProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, 107, 33));
+
+        jBagregarProducto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBagregarProducto.setText("Añardir");
+        jBagregarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBagregarProductoActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jBagregarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, 88, 33));
+
+        jBquitaProducto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBquitaProducto.setText("Quitar");
+        jBquitaProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBquitaProductoActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jBquitaProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 180, 88, 33));
+
+        jBbuscarProducto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBbuscarProducto.setText("Buscar");
+        jBbuscarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBbuscarProductoActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jBbuscarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 88, 31));
+
+        jLabel1.setText("Codigo");
+        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
+        jLabel2.setText("Existencia");
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+
+        jLabel4.setText("Nombre del producto ");
+        jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, -1, -1));
+
+        jLabel7.setText("Precio");
+        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, -1, -1));
+
+        jLabel9.setText("Cantidad a retirar");
+        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 160, -1, -1));
+
+        jLabel10.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 18)); // NOI18N
+        jLabel10.setText("Datos del producto ");
+        jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 210, 30));
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 529, 260));
+
+        jPanel5.setBackground(new java.awt.Color(70, 132, 244));
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(37, 108, 240), 5));
+
+        jLabelTotal.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        jLabelTotal.setText("0");
+
+        jLabel8.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 14)); // NOI18N
+        jLabel8.setText("Total:");
+
+        jBguardarVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBguardarVenta.setText("Guardar");
+        jBguardarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBguardarVentaActionPerformed(evt);
+            }
+        });
+
+        jBCancelar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBCancelar.setText("Cancelar");
+        jBCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCancelarActionPerformed(evt);
+            }
+        });
+
+        jComboModoPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboModoPagoActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 14)); // NOI18N
+        jLabel6.setText("Modo de Pago");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboModoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelTotal)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBguardarVenta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBguardarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTotal)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6)
+                        .addComponent(jComboModoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 529, -1));
+
+        jTableProductosVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(37, 108, 240)));
+        jTableProductosVenta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTableProductosVenta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object[][] {}, // Arreglo de datos vacío, sin filas
+            new String[] { "Items", "Código", "Producto", "Cantidad", "Precio", "Subtotal" } // Nombre de las columnas
+
+        ));
+        jScrollPane4.setViewportView(jTableProductosVenta);
+
+        jPanel1.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 170, 664, 390));
+
+        jLabelFecha.setFont(new java.awt.Font("MS Reference Sans Serif", 2, 18)); // NOI18N
+        jLabelFecha.setText("Fecha");
+        jPanel1.add(jLabelFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 30, 151, -1));
+
+        jLabel5.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel5.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 36)); // NOI18N
+        jLabel5.setText("Área de Facturacion");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, 430, 40));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextproductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextproductoActionPerformed
+
+    private void jTextIdProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextIdProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextIdProductoActionPerformed
+
+    private void jBbuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarProductoActionPerformed
+        jDialogProducto.setSize(680, 400); 
+        jDialogProducto.setVisible(true);
+        jDialogProducto.setLocationRelativeTo(null);
+    // TODO add your handling code here:
+    }//GEN-LAST:event_jBbuscarProductoActionPerformed
+
+    private void jBDbuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDbuscarProductoActionPerformed
+            
+        if(jTextDbuscarProducto.getText().contentEquals("")){
+          JOptionPane.showMessageDialog(rootPane, "Ingrese un producto");
+            try {
+                ObtenerProductos();
+            } catch (SQLException ex) {
+                Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            }else {
+            try{
+                String datoprod = jTextDbuscarProducto.getText();
+                
+                buscarDatosProductos(datoprod);
+                jTextDbuscarProducto.setText("");
+                
+            }catch(SQLException ex){
+                 Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null,ex);
+            }
+            }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBDbuscarProductoActionPerformed
+
+    private void jBDagregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDagregarProductoActionPerformed
+
+        int fila = this.jTableBuscarProducto.getSelectedRow();
+        if (fila == -1){
+            JOptionPane.showMessageDialog(rootPane, "Seleccione un registro de la tabla");
+        }else {
+            try{
+                int id = Integer.parseInt((String)this.jTableBuscarProducto.
+                        getValueAt(fila, 0).toString());
+                
+                String nom = (String) this.jTableBuscarProducto.getValueAt(fila, 1);
+                
+                double pre = Double.parseDouble((String)this.jTableBuscarProducto.
+                        getValueAt(fila, 2).toString());
+                
+                int Exis = Integer.parseInt((String)this.jTableBuscarProducto.
+                        getValueAt(fila, 3).toString());
+                
+                // --------------- se ubican las cajas de texto lo datos capturados ----------//
+                
+                jTextIdProducto.setText("" + id);
+                jTextproducto.setText(nom);
+                jTextPrecio.setText("" + pre);
+                jTextExistenciaProducto.setText("" + Exis);
+                
+                jDialogProducto.dispose();
+            }catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(rootPane, "Ocurrio un ERROR" + e.getMessage());
+            }
+                
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBDagregarProductoActionPerformed
+
+    private void jBagregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBagregarProductoActionPerformed
+        
+        if(jTextCantProducto.getText().contentEquals("0")){
+             JOptionPane.showMessageDialog(rootPane, "Escriba la cantidad de producto");
+             
+         }else{
+            
+            item += 1;
+            
+            
+            objetoVentaTabla[0] = item;
+            
+            objetoVentaTabla[1] = jTextIdProducto.getText().trim();
+            objetoVentaTabla[2] = jTextproducto.getText().trim();
+            objetoVentaTabla[3] = jTextCantProducto.getText().trim();
+            objetoVentaTabla[4] = jTextPrecio.getText().trim();
+            
+            Double subtotal = Double.parseDouble(jTextCantProducto.getText().trim())
+                        * Double.parseDouble(jTextPrecio.getText().trim());
+            
+            objetoVentaTabla[5] = subtotal;
+            
+            total += subtotal;
+            
+            jLabelTotal.setText(total.toString());
+            
+            modeloTablaVenta.addRow(objetoVentaTabla);
+            
+            limpiarCamposProductos();
+             
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBagregarProductoActionPerformed
+
+    private void jBguardarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBguardarVentaActionPerformed
+
+    try{
+        guardarVenta();
+        
+        
+    }catch(SQLException ex){
+        Logger.getLogger(JFrameVenta.class.getName()).
+                log(Level.SEVERE,null,ex);
+    }
+   
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBguardarVentaActionPerformed
+
+    private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
+        dispose();
+        
+        try {
+            new JFrameVenta().setVisible(true);
+// TODO add your handling code here:
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jBCancelarActionPerformed
+
+    private void jBquitaProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBquitaProductoActionPerformed
+        int fila = this.jTableBuscarProducto.getSelectedRow();
+        if(fila == -1){
+            JOptionPane.showMessageDialog(rootPane,"Seleccione una fila a quitar de la tabla" );
+
+        }else{
+            JDialog.setDefaultLookAndFeelDecorated(true);
+            
+            int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro de quitar el producto de la lista?", 
+                                                    "Aceptar", JOptionPane.YES_OPTION,JOptionPane.QUESTION_MESSAGE);
+       
+            if(resp == JOptionPane.NO_OPTION){
+                JOptionPane.showMessageDialog(rootPane, "no se ha retirado ningun producto");
+                
+            }else{
+                if(resp == JOptionPane.YES_OPTION){
+                    DefaultTableModel temp = (DefaultTableModel)
+                            jTableProductosVenta.getModel();
+                    
+                    temp.removeRow(fila);
+                    for (int i = 0; i < jTableProductosVenta.getRowCount(); i++) {
+                        total = 0.0;
+                        total += Double.parseDouble(jTableProductosVenta.getValueAt(i, 5).toString());
+                        
+                    }
+                    jLabelTotal.setText(total.toString());
+                }
+            }
+            if(resp == JOptionPane.CLOSED_OPTION){
+                JOptionPane.showMessageDialog(rootPane, "ninguna accion realizada");
+            }
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBquitaProductoActionPerformed
+
+    private void jComboModoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboModoPagoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboModoPagoActionPerformed
+
+    
+
+    private void jTextCantProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextCantProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextCantProductoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        try {
+            ObtenerProductos();
+            
+            // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void guardarDetalleVenta() throws SQLException{
+    
+        double precio;
+        
+        if (numfac == 0 || jTableProductosVenta.getRowCount() == 0){
+            JOptionPane.showMessageDialog(rootPane, "No se ha obtenido numero de factura o"+
+                                                               "no tiene productos añadidos para vender" );
+        } else{
+            
+            for (int i = 0; i < jTableProductosVenta.getRowCount(); i++) {
+                
+                idproducto = Integer.parseInt(jTableProductosVenta.
+                            getValueAt(i, 1).toString());
+                cantidad = Integer.parseInt(jTableProductosVenta.
+                        getValueAt(i, 3).toString());
+                precio = Double.parseDouble(jTableProductosVenta.
+                        getValueAt(i, 4).toString());
+                        
+                
+                Venta detalleventa = new Venta (numfac, idproducto,
+                                             cantidad, precio);
+                    
+                DAOVenta daoDetalleVenta = new DAOVenta();
+                if(daoDetalleVenta.insertarDetalleVenta(detalleventa) == 0){
+                    JOptionPane.showMessageDialog(rootPane, "Registro agregado en detalle venta");
+                }else{
+                    JOptionPane.showMessageDialog(rootPane, "Ha ocurrido un error, no se inserto el detalle en venta");
+                }
+            }   
+            
+        }
+        
+}
+    
+    public void actualizaExistencia(){
+        int existenciaActual;
+        int nuevaExistencia;
+        
+        for (int i = 0; i < jTableProductosVenta.getRowCount(); i++) {
+            idproducto = Integer.parseInt(jTableProductosVenta.
+                    getValueAt(i, 1).toString());
+            cantidad = Integer.parseInt(jTableProductosVenta.
+                    getValueAt(i, 3).toString());
+            
+            DAOProducto daopro = new DAOProducto();
+            try{
+                List<Producto> p = daopro.busquedaProducto(String.valueOf
+                (idproducto).toString());
+                
+                if (p.isEmpty()) {
+                // Manejar el caso donde no se encuentra el producto
+                JOptionPane.showMessageDialog(rootPane, "Producto no encontrado para el ID: " + idproducto);
+                continue; // Saltar a la siguiente iteración
+            }
+            
+                existenciaActual = p.get(0).getExistencia();
+                
+                nuevaExistencia = existenciaActual - cantidad;
+                
+                Producto pro = new Producto(idproducto,nuevaExistencia);
+                
+                DAOVenta daoVenta = new DAOVenta();
+                
+                if(daoVenta.actualizarExistenciaProductos(pro) == 0){
+                    JOptionPane.showMessageDialog(rootPane, "Existencia Actualizada");
+                    
+                }
+               
+            
+            }catch (SQLException ex){
+                Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE,null,ex);
+            }
+        }
+    }
+    
+    public void guardarVenta() throws SQLException{
+             int numpago = 0, idcliente;
+        
+        numpago = jComboModoPago.getItemAt(jComboModoPago.getSelectedIndex())
+                .getNum_pago();
+        
+        if (jLabelFecha.getText().contentEquals("")
+                || numpago == 0 || jTableProductosVenta.getRowCount() == 0){
+            
+            JOptionPane.showMessageDialog(rootPane, "Se requiere datos del cliente y producto," +
+                                                                "fecha y formato de pago");
+            
+        }else{
+            try{
+               
+                
+                Venta vent = new Venta(numpago,fech);
+                
+                DAOVenta daoventa = new DAOVenta();
+                
+                if(daoventa.insertarVenta(vent) == 0){
+                    JOptionPane.showMessageDialog(rootPane, "Registro agregado en venta");
+                    
+                    numfac = daoventa.obtenerUltimoNumFactura();
+                }else{
+                    JOptionPane.showMessageDialog(rootPane, "Ha ocurrido un error, no se inserto en venta");
+                    
+                }
+                
+                
+            }catch(HeadlessException | SQLException e){
+                JOptionPane.showMessageDialog(rootPane, "No se agregaro" + e );
+            }
+            
+            JOptionPane.showMessageDialog(rootPane, "Registro listo para agregar en factura" + numfac);
+            
+            guardarDetalleVenta();
+            
+            actualizaExistencia();
+        }
+
+                
+
+    }
+    
+    
+    
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(JFrameVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(JFrameVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(JFrameVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(JFrameVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new JFrameVenta().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBCancelar;
+    private javax.swing.JButton jBDagregarProducto;
+    private javax.swing.JButton jBDbuscarProducto;
+    private javax.swing.JButton jBagregarProducto;
+    private javax.swing.JButton jBbuscarProducto;
+    private javax.swing.JButton jBguardarVenta;
+    private javax.swing.JButton jBquitaProducto;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<ModoPago> jComboModoPago;
+    private javax.swing.JDialog jDialogProducto;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelFecha;
+    private javax.swing.JLabel jLabelTotal;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTableBuscarProducto;
+    private javax.swing.JTable jTableProductosVenta;
+    private javax.swing.JTextField jTextCantProducto;
+    private javax.swing.JTextField jTextDbuscarProducto;
+    private javax.swing.JTextField jTextExistenciaProducto;
+    private javax.swing.JTextField jTextIdProducto;
+    private javax.swing.JTextField jTextPrecio;
+    private javax.swing.JTextField jTextproducto;
+    // End of variables declaration//GEN-END:variables
+
+   
+}
