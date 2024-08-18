@@ -59,16 +59,8 @@ public class JFrameVenta extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
        
         jTextCantProducto.setText("0");
-        //jDialogCliente.setLocationRelativeTo(null);
         jDialogProducto.setLocationRelativeTo(null);
-        //jTextIdCliente.setEnabled(false);
-        //jTextNombreCliente.setEnabled(false);
         jTextIdProducto.setEnabled(false);
-        
-
-        
-        //jTextproducto.setText("Ingrese el producto");
-        
         fech = java.sql.Date.valueOf(LocalDate.now());
         jLabelFecha.setText(fech.toString());
         
@@ -100,10 +92,6 @@ public class JFrameVenta extends javax.swing.JFrame {
          
          
     }
-    
-    
-    
-    
     
     public void limpiarCamposProductos(){
         jTextIdProducto.setText("Id");

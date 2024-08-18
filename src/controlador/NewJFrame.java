@@ -6,6 +6,9 @@ package controlador;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import vista.JFrameVenta;
 
 /**
@@ -63,9 +66,14 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        JFrameVenta ventas = new JFrameVenta();
+        JFrameVenta ventas = null;
+        try {
+            ventas = new JFrameVenta();
+        } catch (SQLException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
        // ventas.setSize(1920,1080);
-  ventas.setExtendedState(JFrameVenta.MAXIMIZED_BOTH); 
+         ventas.setExtendedState(JFrameVenta.MAXIMIZED_BOTH); 
        ventas.setVisible(true);
         
 

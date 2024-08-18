@@ -100,12 +100,11 @@ public class DAOProducto {
     try{
         
         CallableStatement st=conectar.Conectar().
-                prepareCall("{CALL insertar }");
-                st.setInt(1, prod.getId_producto());
-                st.setInt(2, prod.getId_categoria());
-                st.setString(3,prod.getNombreProducto());
-                st.setDouble(4, prod.getPrecio());
-                st.setInt(5, prod.getExistencia());
+                prepareCall("{CALL insertarProducto(?,?,?,?) }");
+                st.setInt(1, prod.getId_categoria());
+                st.setString(2,prod.getNombreProducto());
+                st.setDouble(3, prod.getPrecio());
+                st.setInt(4, prod.getExistencia());
                 
                 st.executeUpdate();
         
@@ -118,6 +117,43 @@ public class DAOProducto {
     return 0;
     }
     
+    public int Borrar(int idProducto)throws SQLException{
+       try{
+          CallableStatement st=conectar.Conectar().
+                  prepareCall("{CALL borrarProducto(?)}");
+                  st.setInt(1,idProducto);
+                  
+                  st.executeUpdate();
+       }catch (SQLException e){
+           System.out.println(e+"ERROR");
+           conectar.cerrarConexion();
+           return -1;
+       }
+       conectar.cerrarConexion();
+       return 0;
+   }
     
-    
+     public int Actualizar(Producto pro) throws SQLException {
+    try {
+            CallableStatement st=conectar.Conectar().
+            prepareCall("{CALL actualizarProducto(?,?,?,?,?)}");
+
+        // Asegúrate de pasar los parámetros en el orden correcto
+        st.setInt(1, pro.getId_producto()); // Se requiere el ID del autor para actualizar
+        st.setInt(2, pro.getId_categoria());
+        st.setString(3, pro.getNombreProducto());
+        st.setDouble(4, pro.getPrecio());
+        st.setInt(5, pro.getExistencia());
+        
+        // Aquí es donde se debe especificar que solo se actualiza el autor con el ID proporcionado
+        st.executeUpdate();
+
+    } catch (SQLException e) {
+        System.out.println(e + " Error al actualizar autor");
+        conectar.cerrarConexion();
+        return -1;
+    }
+    conectar.cerrarConexion();
+    return 0;
+}
 }
