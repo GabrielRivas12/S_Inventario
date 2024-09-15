@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelo.DAOCategoria;
+import modelo.Categorias;
 
 /**
  *
@@ -29,9 +31,33 @@ public class JFrameInventario extends javax.swing.JFrame {
     public JFrameInventario() throws SQLException {
         initComponents();
         ObtenerProductos();
-        this.setSize(1420, 800); // Establece el tamaño del JFrame (ancho, alto)
+
+         this.setSize(1920, 1080); // Establece el tamaño del JFrame (ancho, alto)
+
+          try{
+            llenarCombCategoria();
+            
+        }catch(SQLException ex){
+            Logger.getLogger(JFrameVenta.class.getName()).log(Level.
+                    SEVERE, null,ex);
+        }
+
     }
 
+     public void llenarCombCategoria() throws SQLException {
+   
+    List<Categorias> categorias = new DAOCategoria().ObtenerDatos();
+    for (int i = 0; i < categorias.size(); i++) {
+        
+        jComboCategoria.addItem(new Categorias(categorias.
+                get(i).getId_categoria(),
+                categorias.get(i).getNombreCategoria()));
+    }
+}
+
+    
+    
+    
        private void ObtenerProductos()throws SQLException{
     
          List<Producto> proodd = new DAOProducto().ObtenerProducto();
@@ -69,19 +95,19 @@ public class JFrameInventario extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jTextField5 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jBorrar = new javax.swing.JButton();
+        jBActualizar = new javax.swing.JButton();
+        jBEditar = new javax.swing.JButton();
+        jBAgregar = new javax.swing.JButton();
         jTextField4 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jComboCategoria = new javax.swing.JComboBox<>();
         jTextField6 = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -107,31 +133,31 @@ public class JFrameInventario extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton4.setText("borrar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jBorrar.setText("borrar");
+        jBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jBorrarActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Actualizar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jBActualizar.setText("Actualizar");
+        jBActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jBActualizarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Editar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jBEditar.setText("Editar");
+        jBEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jBEditarActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Añadir");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBAgregar.setText("Añadir");
+        jBAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBAgregarActionPerformed(evt);
             }
         });
 
@@ -145,6 +171,12 @@ public class JFrameInventario extends javax.swing.JFrame {
 
         jLabel6.setText("Existencia");
 
+        jComboCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboCategoriaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -153,29 +185,33 @@ public class JFrameInventario extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jComboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jBAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3)
+                                .addComponent(jBActualizar)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jBEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(17, 17, 17)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(26, 26, 26))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(186, 186, 186)
+                                    .addComponent(jTextField4)))
                             .addComponent(jLabel1))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -188,9 +224,9 @@ public class JFrameInventario extends javax.swing.JFrame {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jComboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -204,11 +240,11 @@ public class JFrameInventario extends javax.swing.JFrame {
                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(jBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jBActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(22, 22, 22))
         );
 
@@ -240,22 +276,26 @@ public class JFrameInventario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jBAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAgregarActionPerformed
         
-    String idCat = jTextField2.getText();
+          int categoria = 0;
+        
+        categoria = jComboCategoria.getItemAt(jComboCategoria.getSelectedIndex())
+                .getId_categoria();
+        
     String nom = jTextField3.getText();
     String precio = jTextField4.getText();
     String existen = jTextField5.getText();
 
-    if (idCat.equals("") || nom.equals("") || precio.equals("") || existen.equals("")) {
+    if (categoria == 0 || nom.equals("") || precio.equals("") || existen.equals("")) {
         JOptionPane.showMessageDialog(rootPane, "Todos los campos son obligatorios");
     } else {
         try {
-            int idCate = Integer.parseInt(idCat);
+            
             double precioo = Double.parseDouble(precio);
             int existenn = Integer.parseInt(existen);
 
-            Producto pro = new Producto(idCate, nom, precioo, existenn);
+            Producto pro = new Producto(categoria, nom, precioo, existenn);
             DAOProducto dao = new DAOProducto();
 
             if (dao.Insertar(pro) == 0) {
@@ -269,12 +309,17 @@ public class JFrameInventario extends javax.swing.JFrame {
             Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(rootPane, "Error de base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+              try {
+                  ObtenerProductos();
+              } catch (SQLException ex) {
+                  Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
+              }
     }
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jBAgregarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
 
         try {
         // Obtener el índice de la fila seleccionada
@@ -293,7 +338,7 @@ public class JFrameInventario extends javax.swing.JFrame {
 
             // Mostrar los datos del autor seleccionado en los campos de texto
             jTextField1.setText(String.valueOf(id));
-            jTextField2.setText(String.valueOf(idcatego));
+        //    jTextField2.setText(String.valueOf(idcatego));
             jTextField3.setText(nombre);
             jTextField4.setText(String.valueOf(precio));
             jTextField5.setText(String.valueOf(existencia));
@@ -302,11 +347,15 @@ public class JFrameInventario extends javax.swing.JFrame {
         Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
     }
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jBEditarActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jBActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActualizarActionPerformed
       
-    String idCat = jTextField2.getText();
+        int categoria = 0;
+        
+        categoria = jComboCategoria.getItemAt(jComboCategoria.getSelectedIndex())
+                .getId_categoria();
+        
     String nom = jTextField3.getText();
     String precio = jTextField4.getText();
     String existen = jTextField5.getText();
@@ -324,11 +373,10 @@ public class JFrameInventario extends javax.swing.JFrame {
         int id = Integer.parseInt(idAText);
 
          
-        if (idCat.equals("") || nom.equals("") || precio.equals("") || existen.equals("")) {
+        if (categoria == 0 || nom.equals("") || precio.equals("") || existen.equals("")) {
         JOptionPane.showMessageDialog(rootPane, "Todos los campos son obligatorios");
     } else {
         try {
-            int idCate = Integer.parseInt(idCat);
             double precioo = Double.parseDouble(precio);
             int existenn = Integer.parseInt(existen);
         
@@ -337,7 +385,7 @@ public class JFrameInventario extends javax.swing.JFrame {
         
             
             // Crear un objeto Autor con los nuevos datos
-            Producto pro = new Producto(id, idCate,nom, precioo,existenn);
+            Producto pro = new Producto(id, categoria,nom, precioo,existenn);
             
             // Actualizar el autor en la base de datos
             DAOProducto dao = new DAOProducto();
@@ -371,9 +419,9 @@ public class JFrameInventario extends javax.swing.JFrame {
        
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jBActualizarActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBorrarActionPerformed
 
         try{
             //OBTIENE EL INDICE DEW LA FILA SELECCIONADA
@@ -406,10 +454,14 @@ public class JFrameInventario extends javax.swing.JFrame {
     }
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_jBorrarActionPerformed
+
+    private void jComboCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboCategoriaActionPerformed
   public void limpiarCampos(){
     jTextField1.setText("");
-    jTextField2.setText("");
+   // jTextField2.setText("");
     jTextField3.setText("");
     jTextField4.setText("");
     jTextField5.setText("");
@@ -454,11 +506,12 @@ public class JFrameInventario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jBActualizar;
+    private javax.swing.JButton jBAgregar;
+    private javax.swing.JButton jBEditar;
+    private javax.swing.JButton jBorrar;
     private javax.swing.JButton jButton5;
+    private javax.swing.JComboBox<Categorias> jComboCategoria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -470,7 +523,6 @@ public class JFrameInventario extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;

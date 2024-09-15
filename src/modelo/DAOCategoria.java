@@ -18,15 +18,16 @@ public class DAOCategoria {
     
      Conexion conectar = Conexion.getInstance();
 
-    public List ObtenerCategoria() throws SQLException {
+    public List ObtenerDatos() throws SQLException {
      
         String proced = "listarCategoria()";
         List<Map> registros = new Database().Listar(proced);
         List<Categorias> cat = new ArrayList();
 
-        for (Map registro : registros) {
+        for (Map registro : registros) { // aqui recupera los datos de la base de datos CUIDADO
             Categorias ca = new Categorias((int) registro.get("id_categoria"),
-            (String) registro.get("nombreCategoria")
+            (String) registro.get("nombrecategoria")
+                    
             );
             cat.add(ca);
         }

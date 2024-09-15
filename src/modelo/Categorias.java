@@ -10,9 +10,21 @@ package modelo;
  */
 public class Categorias {
 
+    int id_categoria;
+    String nombreCategoria;
+    
     public Categorias(int id_categoria, String nombreCategoria) {
         this.id_categoria = id_categoria;
         this.nombreCategoria = nombreCategoria;
+    }
+    
+     public Categorias(String nombreCategoria) {
+        this.nombreCategoria = nombreCategoria;
+    }
+    
+    @Override
+    public String toString(){
+    return id_categoria + " - " + nombreCategoria;
     }
     
 
@@ -32,7 +44,6 @@ public class Categorias {
         this.nombreCategoria = nombreCategoria;
     }
             
-    int id_categoria;
-    String nombreCategoria;
+    
     
 }

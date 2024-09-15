@@ -55,9 +55,8 @@ public class JFrameVenta extends javax.swing.JFrame {
         
         initComponents();
         ObtenerProductos();
-        
-        this.setLocationRelativeTo(null);
-       
+        this.setSize(1920, 1080);
+        this.setLocationRelativeTo(null); // Centra el JFrame en la pantalla
         jTextCantProducto.setText("0");
         jDialogProducto.setLocationRelativeTo(null);
         jTextIdProducto.setEnabled(false);

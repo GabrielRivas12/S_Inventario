@@ -20,7 +20,9 @@ public class JFrameReporte extends javax.swing.JFrame {
      * Creates new form JFrameReporte
      */
     public JFrameReporte() {
+        this.setSize(1920, 1080);
         initComponents();
+        
     }
 
     /**
