@@ -115,7 +115,7 @@ public class DAOVenta {
         conectar.Conectar();
         
         //ruta 
-        String path = "D:\\Proyectos\\Java\\MVCfacturacion\\src\\Reportes\\factura_Letter.jrxml";
+        String path =  "src/Reportes/factura_Letter.jrxml";
         
         JasperReport jr;
         

@@ -4,10 +4,15 @@
  */
 package vista;
 
+import controlador.Home;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.DAODetalle;
@@ -20,6 +25,9 @@ import modelo.Producto;
  * @author gabriel rivas
  */
 public class JFrameSalida extends javax.swing.JFrame {
+    
+     private ImageIcon imagen;
+    private Icon icono;
     /**
      * Creates new form JFrameSalida
      */
@@ -27,7 +35,9 @@ public class JFrameSalida extends javax.swing.JFrame {
         initComponents();
         this.setSize(1920, 1080);
         ObtenerSalida();
-      
+        this.mostrarImagen(jLabelBack,
+                "src\\Imagenes\\Back.png");
+        
     }
 
      private void ObtenerSalida()throws SQLException{
@@ -66,10 +76,11 @@ public class JFrameSalida extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableSalida = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jBuscar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabelBack = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -96,13 +107,13 @@ public class JFrameSalida extends javax.swing.JFrame {
         });
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 150, 418, -1));
 
-        jButton1.setText("Buscar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBuscar.setText("Buscar");
+        jBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 150, -1, -1));
+        getContentPane().add(jBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 150, -1, -1));
 
         jButton2.setText("Reiniciar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -119,10 +130,18 @@ public class JFrameSalida extends javax.swing.JFrame {
         jLabel2.setText("Registro de Salidas");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 50, 292, 40));
 
+        jLabelBack.setText("jLabel3");
+        jLabelBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelBackMouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabelBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBuscarActionPerformed
   if(jTextField1.getText().contentEquals("")){
           JOptionPane.showMessageDialog(rootPane, "Ingrese un producto");
             try {
@@ -136,7 +155,6 @@ public class JFrameSalida extends javax.swing.JFrame {
                 String datoprod = jTextField1.getText();
                 
                 buscarDetalles(datoprod);
-                jTextField1.setText("");
                 
             }catch(SQLException ex){
                  Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null,ex);
@@ -146,11 +164,13 @@ public class JFrameSalida extends javax.swing.JFrame {
         // TODO add
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jBuscarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
         try {
             ObtenerSalida();
+             jTextField1.setText("");
             
             // TODO add your handling code here:
         } catch (SQLException ex) {
@@ -161,6 +181,12 @@ public class JFrameSalida extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jLabelBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelBackMouseClicked
+        Home _home = new Home(); // TODO add your handling code here:
+        _home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabelBackMouseClicked
 
         private void buscarDetalles(String dato) throws SQLException{
         List<Detalle> deta = new DAODetalle().busquedaPorFecha(dato);
@@ -176,6 +202,19 @@ public class JFrameSalida extends javax.swing.JFrame {
              modelo.addRow(renglon);
              jTableSalida.setModel(modelo);
     }  } 
+        
+        	 private void mostrarImagen(JLabel lbl, String ruta) {
+        this.imagen = new ImageIcon(ruta);
+        this.icono = new ImageIcon(
+                this.imagen.getImage().getScaledInstance(
+                        lbl.getWidth(),
+                        lbl.getHeight(),
+                        Image.SCALE_DEFAULT));
+        lbl.setIcon(this.icono);
+        this.repaint();
+
+    }
+
     
         
     /**
@@ -218,10 +257,11 @@ public class JFrameSalida extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jBuscar;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelBack;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableSalida;
     private javax.swing.JTextField jTextField1;

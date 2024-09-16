@@ -4,11 +4,15 @@
  */
 package vista;
 
+import controlador.Home;
+import java.awt.Image;
 import modelo.DAOVenta;
 import net.sf.jasperreports.engine.JRException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  *
@@ -16,13 +20,18 @@ import java.util.logging.Logger;
  */
 public class JFrameReporte extends javax.swing.JFrame {
 
+    private ImageIcon imagen;
+    private Icon icono;
+
     /**
      * Creates new form JFrameReporte
      */
     public JFrameReporte() {
         this.setSize(1920, 1080);
         initComponents();
-        
+        this.mostrarImagen(jLabelBack,
+                "src\\Imagenes\\Back.png");
+
     }
 
     /**
@@ -38,6 +47,7 @@ public class JFrameReporte extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jBminimaExistencia = new javax.swing.JButton();
+        jLabelBack = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,6 +62,13 @@ public class JFrameReporte extends javax.swing.JFrame {
             }
         });
 
+        jLabelBack.setText("jLabel2");
+        jLabelBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelBackMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -62,7 +79,9 @@ public class JFrameReporte extends javax.swing.JFrame {
                         .addGap(80, 80, 80)
                         .addComponent(jBminimaExistencia))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabelBack, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65)
                         .addComponent(jLabel1)))
                 .addContainerGap(95, Short.MAX_VALUE))
         );
@@ -70,7 +89,9 @@ public class JFrameReporte extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(jLabel1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabelBack))
                 .addGap(45, 45, 45)
                 .addComponent(jBminimaExistencia)
                 .addContainerGap(340, Short.MAX_VALUE))
@@ -109,16 +130,36 @@ public class JFrameReporte extends javax.swing.JFrame {
 
     private void jBminimaExistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBminimaExistenciaActionPerformed
         DAOVenta daoventa = new DAOVenta();
-        try{
+        try {
             daoventa.productosExistenciabaja();
-        }catch(JRException ex){
-           Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE,null,ex);
+        } catch (JRException ex) {
+            Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 
-
         // TODO add your handling code here:
     }//GEN-LAST:event_jBminimaExistenciaActionPerformed
+
+    private void jLabelBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelBackMouseClicked
+
+        Home _home = new Home(); // TODO add your handling code here:
+        _home.setVisible(true);
+        this.dispose();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabelBackMouseClicked
+
+    private void mostrarImagen(JLabel lbl, String ruta) {
+        this.imagen = new ImageIcon(ruta);
+        this.icono = new ImageIcon(
+                this.imagen.getImage().getScaledInstance(
+                        lbl.getWidth(),
+                        lbl.getHeight(),
+                        Image.SCALE_DEFAULT));
+        lbl.setIcon(this.icono);
+        this.repaint();
+
+    }
 
     /**
      * @param args the command line arguments
@@ -158,6 +199,7 @@ public class JFrameReporte extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBminimaExistencia;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelBack;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables

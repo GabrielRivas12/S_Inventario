@@ -4,6 +4,7 @@
  */
 package vista;
 
+import controlador.Home;
 import modelo.Cliente;
 import modelo.DAOModoPago;
 import modelo.DAOProducto;
@@ -12,6 +13,7 @@ import modelo.ModoPago;
 import modelo.Producto;
 import modelo.Venta;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -22,7 +24,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modeloConexion.Conexion;
@@ -39,10 +44,11 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class JFrameVenta extends javax.swing.JFrame {
 
- 
-    
+    private ImageIcon imagen;
+    private Icon icono;
+
     private DefaultTableModel modeloTablaVenta;
-    private Object[] objetoVentaTabla = new Object [6];
+    private Object[] objetoVentaTabla = new Object[6];
     private Double total = 0.0;
     private int item = 0;
     private java.sql.Date fech;
@@ -50,9 +56,8 @@ public class JFrameVenta extends javax.swing.JFrame {
     private int cantidad = 0;
     private int idproducto;
 
-    
     public JFrameVenta() throws SQLException {
-        
+
         initComponents();
         ObtenerProductos();
         this.setSize(1920, 1080);
@@ -62,68 +67,67 @@ public class JFrameVenta extends javax.swing.JFrame {
         jTextIdProducto.setEnabled(false);
         fech = java.sql.Date.valueOf(LocalDate.now());
         jLabelFecha.setText(fech.toString());
-        
-        //---- LLAMA DEL METODO PARA LLENAR COMBO BOX -------------//
-        try{
-            llenarCombModoPago();
-            
-        }catch(SQLException ex){
-            Logger.getLogger(JFrameVenta.class.getName()).log(Level.
-                    SEVERE, null,ex);
-        }
-         
-        modeloTablaVenta =  (DefaultTableModel) jTableProductosVenta.getModel();
-    }   
+        this.mostrarImagen(jLabelBack,
+                "src\\Imagenes\\Back.png");
 
-    private void ObtenerProductos()throws SQLException{
-    
-         List<Producto> proo = new DAOProducto().ObtenerProducto();
-         
-         DefaultTableModel modelo = new DefaultTableModel();
-         String [] columnas ={"id_producto","nombreProducto","precio","Existencia"};
-         
-         modelo.setColumnIdentifiers(columnas);
-         for(Producto pr: proo){
-             
-             String [] renglon = { Integer.toString(pr.getId_producto()),pr.getNombreProducto(),Double.toString(pr.getPrecio()),Integer.toString(pr.getExistencia())};
-             modelo.addRow(renglon);
-         }jTableBuscarProducto.setModel(modelo);
-         
-         
+        //---- LLAMA DEL METODO PARA LLENAR COMBO BOX -------------//
+        try {
+            llenarCombModoPago();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        modeloTablaVenta = (DefaultTableModel) jTableProductosVenta.getModel();
     }
-    
-    public void limpiarCamposProductos(){
+
+    private void ObtenerProductos() throws SQLException {
+
+        List<Producto> proo = new DAOProducto().ObtenerProducto();
+
+        DefaultTableModel modelo = new DefaultTableModel();
+        String[] columnas = {"id_producto", "nombreProducto", "precio", "Existencia"};
+
+        modelo.setColumnIdentifiers(columnas);
+        for (Producto pr : proo) {
+
+            String[] renglon = {Integer.toString(pr.getId_producto()), pr.getNombreProducto(), Double.toString(pr.getPrecio()), Integer.toString(pr.getExistencia())};
+            modelo.addRow(renglon);
+        }
+        jTableBuscarProducto.setModel(modelo);
+
+    }
+
+    public void limpiarCamposProductos() {
         jTextIdProducto.setText("Id");
         jTextproducto.setText("Nombre Producto");
         jTextPrecio.setText("Precio");
         jTextExistenciaProducto.setText("Existencia");
         jTextCantProducto.setText("Cantidad");
     }
-    
+
     //----------------------Metodo para llenar combobox modo pago------------///
-    public void llenarCombModoPago() throws SQLException{
-   
-    List<ModoPago> modoPago = new DAOModoPago().ObtenerDatos();
+    public void llenarCombModoPago() throws SQLException {
+
+        List<ModoPago> modoPago = new DAOModoPago().ObtenerDatos();
         for (int i = 0; i < modoPago.size(); i++) {
-            
+
             jComboModoPago.addItem(new ModoPago(modoPago.
                     get(i).getNum_pago(),
                     modoPago.get(i).getNombreModoP()));
         }
     }
-    
-   
-    
-    private void buscarDatosProductos(String dato) throws SQLException{
+
+    private void buscarDatosProductos(String dato) throws SQLException {
         List<Producto> productos = new DAOProducto().busquedaProducto(dato);
-        
+
         DefaultTableModel modelo = new DefaultTableModel();
-        
-        String[] columnas = {"id_producto", "Producto", "Precio","Existencia"};
-        
+
+        String[] columnas = {"id_producto", "Producto", "Precio", "Existencia"};
+
         modelo.setColumnIdentifiers(columnas);
-        for (Producto pro: productos) {
-            
+        for (Producto pro : productos) {
+
             String[] renglon = {
                 Integer.toString(pro.getId_producto()),
                 pro.getNombreProducto(),
@@ -133,8 +137,8 @@ public class JFrameVenta extends javax.swing.JFrame {
             modelo.addRow(renglon);
         }
         jTableBuscarProducto.setModel(modelo);
-    }   
-    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -181,6 +185,7 @@ public class JFrameVenta extends javax.swing.JFrame {
         jTableProductosVenta = new javax.swing.JTable();
         jLabelFecha = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabelBack = new javax.swing.JLabel();
 
         jPanel7.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -465,8 +470,16 @@ public class JFrameVenta extends javax.swing.JFrame {
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
         jLabel5.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 36)); // NOI18N
-        jLabel5.setText("Área de Facturacion");
+        jLabel5.setText("area");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, 430, 40));
+
+        jLabelBack.setText("jLabel11");
+        jLabelBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelBackMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabelBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 50, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -493,33 +506,33 @@ public class JFrameVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextIdProductoActionPerformed
 
     private void jBbuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarProductoActionPerformed
-        jDialogProducto.setSize(680, 400); 
+        jDialogProducto.setSize(680, 400);
         jDialogProducto.setVisible(true);
         jDialogProducto.setLocationRelativeTo(null);
-    // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_jBbuscarProductoActionPerformed
 
     private void jBDbuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDbuscarProductoActionPerformed
-            
-        if(jTextDbuscarProducto.getText().contentEquals("")){
-          JOptionPane.showMessageDialog(rootPane, "Ingrese un producto");
+
+        if (jTextDbuscarProducto.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Ingrese un producto");
             try {
                 ObtenerProductos();
             } catch (SQLException ex) {
                 Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            }else {
-            try{
+
+        } else {
+            try {
                 String datoprod = jTextDbuscarProducto.getText();
-                
+
                 buscarDatosProductos(datoprod);
                 jTextDbuscarProducto.setText("");
-                
-            }catch(SQLException ex){
-                 Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null,ex);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
             }
-            }
+        }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jBDbuscarProductoActionPerformed
@@ -527,88 +540,85 @@ public class JFrameVenta extends javax.swing.JFrame {
     private void jBDagregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDagregarProductoActionPerformed
 
         int fila = this.jTableBuscarProducto.getSelectedRow();
-        if (fila == -1){
+        if (fila == -1) {
             JOptionPane.showMessageDialog(rootPane, "Seleccione un registro de la tabla");
-        }else {
-            try{
-                int id = Integer.parseInt((String)this.jTableBuscarProducto.
+        } else {
+            try {
+                int id = Integer.parseInt((String) this.jTableBuscarProducto.
                         getValueAt(fila, 0).toString());
-                
+
                 String nom = (String) this.jTableBuscarProducto.getValueAt(fila, 1);
-                
-                double pre = Double.parseDouble((String)this.jTableBuscarProducto.
+
+                double pre = Double.parseDouble((String) this.jTableBuscarProducto.
                         getValueAt(fila, 2).toString());
-                
-                int Exis = Integer.parseInt((String)this.jTableBuscarProducto.
+
+                int Exis = Integer.parseInt((String) this.jTableBuscarProducto.
                         getValueAt(fila, 3).toString());
-                
+
                 // --------------- se ubican las cajas de texto lo datos capturados ----------//
-                
                 jTextIdProducto.setText("" + id);
                 jTextproducto.setText(nom);
                 jTextPrecio.setText("" + pre);
                 jTextExistenciaProducto.setText("" + Exis);
-                
+
                 jDialogProducto.dispose();
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(rootPane, "Ocurrio un ERROR" + e.getMessage());
             }
-                
+
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_jBDagregarProductoActionPerformed
 
     private void jBagregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBagregarProductoActionPerformed
-        
-        if(jTextCantProducto.getText().contentEquals("0")){
-             JOptionPane.showMessageDialog(rootPane, "Escriba la cantidad de producto");
-             
-         }else{
-            
+
+        if (jTextCantProducto.getText().contentEquals("0")) {
+            JOptionPane.showMessageDialog(rootPane, "Escriba la cantidad de producto");
+
+        } else {
+
             item += 1;
-            
-            
+
             objetoVentaTabla[0] = item;
-            
+
             objetoVentaTabla[1] = jTextIdProducto.getText().trim();
             objetoVentaTabla[2] = jTextproducto.getText().trim();
             objetoVentaTabla[3] = jTextCantProducto.getText().trim();
             objetoVentaTabla[4] = jTextPrecio.getText().trim();
-            
+
             Double subtotal = Double.parseDouble(jTextCantProducto.getText().trim())
-                        * Double.parseDouble(jTextPrecio.getText().trim());
-            
+                    * Double.parseDouble(jTextPrecio.getText().trim());
+
             objetoVentaTabla[5] = subtotal;
-            
+
             total += subtotal;
-            
+
             jLabelTotal.setText(total.toString());
-            
+
             modeloTablaVenta.addRow(objetoVentaTabla);
-            
+
             limpiarCamposProductos();
-             
+
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_jBagregarProductoActionPerformed
 
     private void jBguardarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBguardarVentaActionPerformed
 
-    try{
-        guardarVenta();
-        
-        
-    }catch(SQLException ex){
-        Logger.getLogger(JFrameVenta.class.getName()).
-                log(Level.SEVERE,null,ex);
-    }
-   
+        try {
+            guardarVenta();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameVenta.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jBguardarVentaActionPerformed
 
     private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
         dispose();
-        
+
         try {
             new JFrameVenta().setVisible(true);
 // TODO add your handling code here:
@@ -619,33 +629,32 @@ public class JFrameVenta extends javax.swing.JFrame {
 
     private void jBquitaProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBquitaProductoActionPerformed
         int fila = this.jTableBuscarProducto.getSelectedRow();
-        if(fila == -1){
-            JOptionPane.showMessageDialog(rootPane,"Seleccione una fila a quitar de la tabla" );
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Seleccione una fila a quitar de la tabla");
 
-        }else{
+        } else {
             JDialog.setDefaultLookAndFeelDecorated(true);
-            
-            int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro de quitar el producto de la lista?", 
-                                                    "Aceptar", JOptionPane.YES_OPTION,JOptionPane.QUESTION_MESSAGE);
-       
-            if(resp == JOptionPane.NO_OPTION){
+
+            int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro de quitar el producto de la lista?",
+                    "Aceptar", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+            if (resp == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(rootPane, "no se ha retirado ningun producto");
-                
-            }else{
-                if(resp == JOptionPane.YES_OPTION){
-                    DefaultTableModel temp = (DefaultTableModel)
-                            jTableProductosVenta.getModel();
-                    
+
+            } else {
+                if (resp == JOptionPane.YES_OPTION) {
+                    DefaultTableModel temp = (DefaultTableModel) jTableProductosVenta.getModel();
+
                     temp.removeRow(fila);
                     for (int i = 0; i < jTableProductosVenta.getRowCount(); i++) {
                         total = 0.0;
                         total += Double.parseDouble(jTableProductosVenta.getValueAt(i, 5).toString());
-                        
+
                     }
                     jLabelTotal.setText(total.toString());
                 }
             }
-            if(resp == JOptionPane.CLOSED_OPTION){
+            if (resp == JOptionPane.CLOSED_OPTION) {
                 JOptionPane.showMessageDialog(rootPane, "ninguna accion realizada");
             }
         }
@@ -657,7 +666,6 @@ public class JFrameVenta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboModoPagoActionPerformed
 
-    
 
     private void jTextCantProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextCantProductoActionPerformed
         // TODO add your handling code here:
@@ -667,142 +675,150 @@ public class JFrameVenta extends javax.swing.JFrame {
 
         try {
             ObtenerProductos();
-            
+
             // TODO add your handling code here:
         } catch (SQLException ex) {
             Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void guardarDetalleVenta() throws SQLException{
-    
+    private void jLabelBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelBackMouseClicked
+
+        Home _home = new Home(); // TODO add your handling code here:
+        _home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabelBackMouseClicked
+
+    public void guardarDetalleVenta() throws SQLException {
+
         double precio;
-        
-        if (numfac == 0 || jTableProductosVenta.getRowCount() == 0){
-            JOptionPane.showMessageDialog(rootPane, "No se ha obtenido numero de factura o"+
-                                                               "no tiene productos añadidos para vender" );
-        } else{
-            
+
+        if (numfac == 0 || jTableProductosVenta.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(rootPane, "No se ha obtenido numero de factura o"
+                    + "no tiene productos añadidos para vender");
+        } else {
+
             for (int i = 0; i < jTableProductosVenta.getRowCount(); i++) {
-                
+
                 idproducto = Integer.parseInt(jTableProductosVenta.
-                            getValueAt(i, 1).toString());
+                        getValueAt(i, 1).toString());
                 cantidad = Integer.parseInt(jTableProductosVenta.
                         getValueAt(i, 3).toString());
                 precio = Double.parseDouble(jTableProductosVenta.
                         getValueAt(i, 4).toString());
-                        
-                
-                Venta detalleventa = new Venta (numfac, idproducto,
-                                             cantidad, precio);
-                    
+
+                Venta detalleventa = new Venta(numfac, idproducto,
+                        cantidad, precio);
+
                 DAOVenta daoDetalleVenta = new DAOVenta();
-                if(daoDetalleVenta.insertarDetalleVenta(detalleventa) == 0){
+                if (daoDetalleVenta.insertarDetalleVenta(detalleventa) == 0) {
                     JOptionPane.showMessageDialog(rootPane, "Registro agregado en detalle venta");
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(rootPane, "Ha ocurrido un error, no se inserto el detalle en venta");
                 }
-            }   
-            
+            }
+
         }
-        
-}
-    
-    public void actualizaExistencia(){
+
+    }
+
+    public void actualizaExistencia() {
         int existenciaActual;
         int nuevaExistencia;
-        
+
         for (int i = 0; i < jTableProductosVenta.getRowCount(); i++) {
             idproducto = Integer.parseInt(jTableProductosVenta.
                     getValueAt(i, 1).toString());
             cantidad = Integer.parseInt(jTableProductosVenta.
                     getValueAt(i, 3).toString());
-            
+
             DAOProducto daopro = new DAOProducto();
-            try{
-                List<Producto> p = daopro.busquedaProducto(String.valueOf
-                (idproducto).toString());
-                
+            try {
+                List<Producto> p = daopro.busquedaProducto(String.valueOf(idproducto).toString());
+
                 if (p.isEmpty()) {
-                // Manejar el caso donde no se encuentra el producto
-                JOptionPane.showMessageDialog(rootPane, "Producto no encontrado para el ID: " + idproducto);
-                continue; // Saltar a la siguiente iteración
-            }
-            
-                existenciaActual = p.get(0).getExistencia();
-                
-                nuevaExistencia = existenciaActual - cantidad;
-                
-                Producto pro = new Producto(idproducto,nuevaExistencia);
-                
-                DAOVenta daoVenta = new DAOVenta();
-                
-                if(daoVenta.actualizarExistenciaProductos(pro) == 0){
-                    JOptionPane.showMessageDialog(rootPane, "Existencia Actualizada");
-                    
+                    // Manejar el caso donde no se encuentra el producto
+                    JOptionPane.showMessageDialog(rootPane, "Producto no encontrado para el ID: " + idproducto);
+                    continue; // Saltar a la siguiente iteración
                 }
-               
-            
-            }catch (SQLException ex){
-                Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE,null,ex);
+
+                existenciaActual = p.get(0).getExistencia();
+
+                nuevaExistencia = existenciaActual - cantidad;
+
+                Producto pro = new Producto(idproducto, nuevaExistencia);
+
+                DAOVenta daoVenta = new DAOVenta();
+
+                if (daoVenta.actualizarExistenciaProductos(pro) == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Existencia Actualizada");
+
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-    
-    public void guardarVenta() throws SQLException{
-             int numpago = 0, idcliente;
-        
+
+    public void guardarVenta() throws SQLException {
+        int numpago = 0, idcliente;
+
         numpago = jComboModoPago.getItemAt(jComboModoPago.getSelectedIndex())
                 .getNum_pago();
-        
+
         if (jLabelFecha.getText().contentEquals("")
-                || numpago == 0 || jTableProductosVenta.getRowCount() == 0){
-            
-            JOptionPane.showMessageDialog(rootPane, "Se requiere datos del cliente y producto," +
-                                                                "fecha y formato de pago");
-            
-        }else{
-            try{
-               
-                
-                Venta vent = new Venta(numpago,fech);
-                
+                || numpago == 0 || jTableProductosVenta.getRowCount() == 0) {
+
+            JOptionPane.showMessageDialog(rootPane, "Se requiere datos del cliente y producto,"
+                    + "fecha y formato de pago");
+
+        } else {
+            try {
+
+                Venta vent = new Venta(numpago, fech);
+
                 DAOVenta daoventa = new DAOVenta();
-                
-                if(daoventa.insertarVenta(vent) == 0){
+
+                if (daoventa.insertarVenta(vent) == 0) {
                     JOptionPane.showMessageDialog(rootPane, "Registro agregado en venta");
-                    
+
                     numfac = daoventa.obtenerUltimoNumFactura();
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(rootPane, "Ha ocurrido un error, no se inserto en venta");
-                    
+
                 }
-                
-                
-            }catch(HeadlessException | SQLException e){
-                JOptionPane.showMessageDialog(rootPane, "No se agregaro" + e );
+
+            } catch (HeadlessException | SQLException e) {
+                JOptionPane.showMessageDialog(rootPane, "No se agregaro" + e);
             }
-            
+
             JOptionPane.showMessageDialog(rootPane, "Registro listo para agregar en factura" + numfac);
-            
+
             guardarDetalleVenta();
-            
+
             actualizaExistencia();
         }
 
-                
+    }
+     private void mostrarImagen(JLabel lbl, String ruta) {
+        this.imagen = new ImageIcon(ruta);
+        this.icono = new ImageIcon(
+                this.imagen.getImage().getScaledInstance(
+                        lbl.getWidth(),
+                        lbl.getHeight(),
+                        Image.SCALE_DEFAULT));
+        lbl.setIcon(this.icono);
+        this.repaint();
 
     }
-    
-    
-    
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -833,7 +849,7 @@ public class JFrameVenta extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
         });
     }
@@ -859,6 +875,7 @@ public class JFrameVenta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelBack;
     private javax.swing.JLabel jLabelFecha;
     private javax.swing.JLabel jLabelTotal;
     private javax.swing.JPanel jPanel1;
@@ -878,5 +895,4 @@ public class JFrameVenta extends javax.swing.JFrame {
     private javax.swing.JTextField jTextproducto;
     // End of variables declaration//GEN-END:variables
 
-   
 }

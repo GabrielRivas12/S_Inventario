@@ -4,7 +4,9 @@
  */
 package vista;
 
+import controlador.Home;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.sql.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -15,6 +17,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import modelo.DAOCategoria;
 import modelo.Categorias;
@@ -25,6 +30,9 @@ import modelo.Categorias;
  */
 public class JFrameInventario extends javax.swing.JFrame {
 
+    private ImageIcon imagen;
+    private Icon icono;
+
     /**
      * Creates new form JFrameInventario
      */
@@ -32,59 +40,58 @@ public class JFrameInventario extends javax.swing.JFrame {
         initComponents();
         ObtenerProductos();
 
-         this.setSize(1920, 1080); // Establece el tamaño del JFrame (ancho, alto)
+        this.mostrarImagen(jLabelBack,
+                "src\\Imagenes\\Back.png");
 
-          try{
+        this.setSize(1920, 1080); // Establece el tamaño del JFrame (ancho, alto)
+
+        try {
             llenarCombCategoria();
-            
-        }catch(SQLException ex){
-            Logger.getLogger(JFrameVenta.class.getName()).log(Level.
-                    SEVERE, null,ex);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-     public void llenarCombCategoria() throws SQLException {
-   
-    List<Categorias> categorias = new DAOCategoria().ObtenerDatos();
-    for (int i = 0; i < categorias.size(); i++) {
-        
-        jComboCategoria.addItem(new Categorias(categorias.
-                get(i).getId_categoria(),
-                categorias.get(i).getNombreCategoria()));
-    }
-}
+    public void llenarCombCategoria() throws SQLException {
 
-    
-    
-    
-       private void ObtenerProductos()throws SQLException{
-    
-         List<Producto> proodd = new DAOProducto().ObtenerProducto();
-         
-         DefaultTableModel modelo = new DefaultTableModel();
-         String [] columnas ={"id_producto","id_categoria","Producto","Precio","Existencia"};
-         
-         modelo.setColumnIdentifiers(columnas);
-         for(Producto pr: proodd){
-             
-             String [] renglon = { Integer.toString(pr.getId_producto()),Integer.toString(pr.getId_categoria()),pr.getNombreProducto(),Double.toString(pr.getPrecio()),Integer.toString(pr.getExistencia())};
-             modelo.addRow(renglon);
-         }jTable1.setModel(modelo);
-         
-         
+        List<Categorias> categorias = new DAOCategoria().ObtenerDatos();
+        for (int i = 0; i < categorias.size(); i++) {
+
+            jComboCategoria.addItem(new Categorias(categorias.
+                    get(i).getId_categoria(),
+                    categorias.get(i).getNombreCategoria()));
+        }
     }
-    
-    private void buscarDatosProductos(String dato) throws SQLException{
-        List<Producto> productos = new DAOProducto().busquedaProducto(dato);
-        
+
+    private void ObtenerProductos() throws SQLException {
+
+        List<Producto> proodd = new DAOProducto().ObtenerProducto();
+
         DefaultTableModel modelo = new DefaultTableModel();
-        
-        String[] columnas = {"id_producto", "id_categoria","Producto", "Precio","Existencia"};
-        
+        String[] columnas = {"id_producto", "id_categoria", "Producto", "Precio", "Existencia"};
+
         modelo.setColumnIdentifiers(columnas);
-        for (Producto pro: productos) {
-            
+        for (Producto pr : proodd) {
+
+            String[] renglon = {Integer.toString(pr.getId_producto()), Integer.toString(pr.getId_categoria()), pr.getNombreProducto(), Double.toString(pr.getPrecio()), Integer.toString(pr.getExistencia())};
+            modelo.addRow(renglon);
+        }
+        jTable1.setModel(modelo);
+
+    }
+
+    private void buscarDatosProductos(String dato) throws SQLException {
+        List<Producto> productos = new DAOProducto().busquedaProducto(dato);
+
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        String[] columnas = {"id_producto", "id_categoria", "Producto", "Precio", "Existencia"};
+
+        modelo.setColumnIdentifiers(columnas);
+        for (Producto pro : productos) {
+
             String[] renglon = {
                 Integer.toString(pro.getId_producto()),
                 Integer.toString(pro.getId_categoria()),
@@ -95,12 +102,8 @@ public class JFrameInventario extends javax.swing.JFrame {
             modelo.addRow(renglon);
         }
         jTable1.setModel(modelo);
-    }   
-    
-    
-    
-    
-    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,6 +135,7 @@ public class JFrameInventario extends javax.swing.JFrame {
         jBuscar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabelBack = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -292,6 +296,14 @@ public class JFrameInventario extends javax.swing.JFrame {
         });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, -1, -1));
 
+        jLabelBack.setText("jLabel7");
+        jLabelBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelBackMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabelBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 60, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -309,45 +321,45 @@ public class JFrameInventario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAgregarActionPerformed
-        
-          int categoria = 0;
-        
+
+        int categoria = 0;
+
         categoria = jComboCategoria.getItemAt(jComboCategoria.getSelectedIndex())
                 .getId_categoria();
-        
-    String nom = jTextNombreProducto.getText();
-    String precio = jTextPrecio.getText();
-    String existen = jTextExistencia.getText();
 
-    if (categoria == 0 || nom.equals("") || precio.equals("") || existen.equals("")) {
-        JOptionPane.showMessageDialog(rootPane, "Todos los campos son obligatorios");
-    } else {
-        try {
-            
-            double precioo = Double.parseDouble(precio);
-            int existenn = Integer.parseInt(existen);
+        String nom = jTextNombreProducto.getText();
+        String precio = jTextPrecio.getText();
+        String existen = jTextExistencia.getText();
 
-            Producto pro = new Producto(categoria, nom, precioo, existenn);
-            DAOProducto dao = new DAOProducto();
+        if (categoria == 0 || nom.equals("") || precio.equals("") || existen.equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Todos los campos son obligatorios");
+        } else {
+            try {
 
-            if (dao.Insertar(pro) == 0) {
-                JOptionPane.showMessageDialog(rootPane, "Registro agregado");
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Error al agregar el registro");
+                double precioo = Double.parseDouble(precio);
+                int existenn = Integer.parseInt(existen);
+
+                Producto pro = new Producto(categoria, nom, precioo, existenn);
+                DAOProducto dao = new DAOProducto();
+
+                if (dao.Insertar(pro) == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Registro agregado");
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Error al agregar el registro");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(rootPane, "Verifique que los campos numéricos sean válidos", "Error de formato", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(rootPane, "Error de base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(rootPane, "Verifique que los campos numéricos sean válidos", "Error de formato", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(rootPane, "Error de base de datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            try {
+                ObtenerProductos();
+                limpiarCampos();
+            } catch (SQLException ex) {
+                Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-              try {
-                  ObtenerProductos();
-                  limpiarCampos();
-              } catch (SQLException ex) {
-                  Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
-              }
-    }
 
 
     }//GEN-LAST:event_jBAgregarActionPerformed
@@ -401,108 +413,100 @@ public class JFrameInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_jBEditarActionPerformed
 
     private void jBActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActualizarActionPerformed
-      
-        int categoria = 0;
-        
-    categoria = jComboCategoria.getItemAt(jComboCategoria.getSelectedIndex())
-                .getId_categoria();
-        
-    String nom = jTextNombreProducto.getText();
-    String precio = jTextPrecio.getText();
-    String existen = jTextExistencia.getText();
 
-        
-         // OBTIENE EL VALOR DE ID EN CADENA DE TEXTO PARA VER SI ESTA VACIO 
-         // LUEGO SE RETORNA Y SE CONVIERTE EN INT
+        int categoria = 0;
+
+        categoria = jComboCategoria.getItemAt(jComboCategoria.getSelectedIndex())
+                .getId_categoria();
+
+        String nom = jTextNombreProducto.getText();
+        String precio = jTextPrecio.getText();
+        String existen = jTextExistencia.getText();
+
+        // OBTIENE EL VALOR DE ID EN CADENA DE TEXTO PARA VER SI ESTA VACIO 
+        // LUEGO SE RETORNA Y SE CONVIERTE EN INT
         String id_p = jTextProducto.getText();
         if (id_p.isEmpty()) {
-        JOptionPane.showMessageDialog(rootPane, "Seleccione un producto para actualizar");
-         return;
+            JOptionPane.showMessageDialog(rootPane, "Seleccione un producto para actualizar");
+            return;
         }
-        
+
         // convierte en una cadena deentero
         int id_producto = Integer.parseInt(id_p);
 
-         
         if (categoria == 0 || nom.equals("") || precio.equals("") || existen.equals("")) {
-        JOptionPane.showMessageDialog(rootPane, "Todos los campos son obligatorios");
-    } else {
-        try {
-            double precioo = Double.parseDouble(precio);
-            int existenn = Integer.parseInt(existen);
-        
-        
-       
-        
-            
-            // Crear un objeto Autor con los nuevos datos
-            Producto pro = new Producto(id_producto, categoria,nom, precioo,existenn);
-            
-            // Actualizar el autor en la base de datos
-            DAOProducto dao = new DAOProducto();
-            int resultado = dao.Actualizar(pro);
-            
-            if (resultado == 0) {
-                JOptionPane.showMessageDialog(rootPane, "Producto actualizado correctamente");
-                
-                // Actualizar la fila correspondiente al en la tabla
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                for (int i = 0; i < model.getRowCount(); i++) {
-                    if (Integer.parseInt(model.getValueAt(i, 0).toString()) == id_producto) {
-                        model.setValueAt(categoria, i, 1); // Nombres
-                        model.setValueAt(nom, i, 2); // Apellidos
-                        model.setValueAt(precioo, i, 3); // Email
-                        model.setValueAt(existenn, i, 4); // Cedula
-                        break; // Salir del bucle una vez que se haya actualizado la fila
+            JOptionPane.showMessageDialog(rootPane, "Todos los campos son obligatorios");
+        } else {
+            try {
+                double precioo = Double.parseDouble(precio);
+                int existenn = Integer.parseInt(existen);
+
+                // Crear un objeto Autor con los nuevos datos
+                Producto pro = new Producto(id_producto, categoria, nom, precioo, existenn);
+
+                // Actualizar el autor en la base de datos
+                DAOProducto dao = new DAOProducto();
+                int resultado = dao.Actualizar(pro);
+
+                if (resultado == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Producto actualizado correctamente");
+
+                    // Actualizar la fila correspondiente al en la tabla
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    for (int i = 0; i < model.getRowCount(); i++) {
+                        if (Integer.parseInt(model.getValueAt(i, 0).toString()) == id_producto) {
+                            model.setValueAt(categoria, i, 1); // Nombres
+                            model.setValueAt(nom, i, 2); // Apellidos
+                            model.setValueAt(precioo, i, 3); // Email
+                            model.setValueAt(existenn, i, 4); // Cedula
+                            break; // Salir del bucle una vez que se haya actualizado la fila
+                        }
                     }
+
+                    // Limpiar los campos de texto después de la actualización
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "No se pudo actualizar el producto");
                 }
-                
-                // Limpiar los campos de texto después de la actualización
-                limpiarCampos();
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "No se pudo actualizar el producto");
+            } catch (SQLException ex) {
+                Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-       
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jBActualizarActionPerformed
 
     private void jBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBorrarActionPerformed
 
-        try{
+        try {
             //OBTIENE EL INDICE DEW LA FILA SELECCIONADA
             int fila = jTable1.getSelectedRow();
-            int id=0;
-           // Verifica si se seleccionó una fila
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Seleccione un autor para borrar");
-            return;
-        } else {
-            // Obtiene el ID del autor seleccionado
-            id = Integer.parseInt(jTable1.getValueAt(fila, 0).toString());
-        }
-        
-        // Instancia la clase DAautor
+            int id = 0;
+            // Verifica si se seleccionó una fila
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(rootPane, "Seleccione un autor para borrar");
+                return;
+            } else {
+                // Obtiene el ID del autor seleccionado
+                id = Integer.parseInt(jTable1.getValueAt(fila, 0).toString());
+            }
+
+            // Instancia la clase DAautor
             DAOProducto dao = new DAOProducto();
-            
+
             // Llama al método Borrar y muestra un mensaje según el resultado
             if (dao.Borrar(id) == 0) {
                 JOptionPane.showMessageDialog(rootPane, "Autor borrado correctamente");
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Error al borrar autor");
             }
-            
+
             // Vuelve a cargar los datos en la tabla después de borrar
             ObtenerProductos();
-        
-    } catch (SQLException ex) {
-        Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
-    }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jBorrarActionPerformed
@@ -512,57 +516,72 @@ public class JFrameInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboCategoriaActionPerformed
 
     private void jBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBuscarActionPerformed
-            
-        if(jBuscar.getText().contentEquals("")){
-          JOptionPane.showMessageDialog(rootPane, "Ingrese un producto");
+
+        if (jBuscar.getText().contentEquals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Ingrese un producto");
             try {
                 ObtenerProductos();
             } catch (SQLException ex) {
                 Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            }else {
-            try{
+
+        } else {
+            try {
                 String datoprod = jTextBuscar.getText();
-                
+
                 buscarDatosProductos(datoprod);
-             
-                
-            }catch(SQLException ex){
-                 Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null,ex);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
             }
-            }
+        }
 
         // TODO add your handling code here:
-
-
-
-
         // TODO add your handling code here:
     }//GEN-LAST:event_jBuscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             ObtenerProductos();
-               jTextBuscar.setText("");
+            jTextBuscar.setText("");
             // TODO add your handling code here:
         } catch (SQLException ex) {
             Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-  public void limpiarCampos(){
 
-     
-      jTextProducto.setText("");
-    jComboCategoria.setSelectedIndex(0);
+    private void jLabelBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelBackMouseClicked
 
-    jTextNombreProducto.setText("");
-    jTextPrecio.setText("");
-    jTextExistencia.setText("");
+        Home _home = new Home(); // TODO add your handling code here:
+        _home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabelBackMouseClicked
+    public void limpiarCampos() {
+
+        jTextProducto.setText("");
+        jComboCategoria.setSelectedIndex(0);
+
+        jTextNombreProducto.setText("");
+        jTextPrecio.setText("");
+        jTextExistencia.setText("");
     }
+
     /**
      * @param args the command line arguments
      */
+
+    private void mostrarImagen(JLabel lbl, String ruta) {
+        this.imagen = new ImageIcon(ruta);
+        this.icono = new ImageIcon(
+                this.imagen.getImage().getScaledInstance(
+                        lbl.getWidth(),
+                        lbl.getHeight(),
+                        Image.SCALE_DEFAULT));
+        lbl.setIcon(this.icono);
+        this.repaint();
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -613,6 +632,7 @@ public class JFrameInventario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabelBack;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
