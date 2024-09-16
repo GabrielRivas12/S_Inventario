@@ -63,7 +63,7 @@ public class JFrameInventario extends javax.swing.JFrame {
          List<Producto> proodd = new DAOProducto().ObtenerProducto();
          
          DefaultTableModel modelo = new DefaultTableModel();
-         String [] columnas ={"id_producto","id_categoria","nombreProducto","precio","Existencia"};
+         String [] columnas ={"id_producto","id_categoria","Producto","Precio","Existencia"};
          
          modelo.setColumnIdentifiers(columnas);
          for(Producto pr: proodd){
@@ -75,7 +75,27 @@ public class JFrameInventario extends javax.swing.JFrame {
          
     }
     
-    
+    private void buscarDatosProductos(String dato) throws SQLException{
+        List<Producto> productos = new DAOProducto().busquedaProducto(dato);
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        String[] columnas = {"id_producto", "id_categoria","Producto", "Precio","Existencia"};
+        
+        modelo.setColumnIdentifiers(columnas);
+        for (Producto pro: productos) {
+            
+            String[] renglon = {
+                Integer.toString(pro.getId_producto()),
+                Integer.toString(pro.getId_categoria()),
+                pro.getNombreProducto(),
+                Double.toString(pro.getPrecio()),
+                Integer.toString(pro.getExistencia())
+            };
+            modelo.addRow(renglon);
+        }
+        jTable1.setModel(modelo);
+    }   
     
     
     
@@ -94,23 +114,24 @@ public class JFrameInventario extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jTextField5 = new javax.swing.JTextField();
+        jTextExistencia = new javax.swing.JTextField();
         jBorrar = new javax.swing.JButton();
         jBActualizar = new javax.swing.JButton();
         jBEditar = new javax.swing.JButton();
         jBAgregar = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
+        jTextPrecio = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jTextNombreProducto = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextProducto = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jComboCategoria = new javax.swing.JComboBox<>();
-        jTextField6 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
+        jTextBuscar = new javax.swing.JTextField();
+        jBuscar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -189,7 +210,7 @@ public class JFrameInventario extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextExistencia, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                                 .addComponent(jBAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -206,12 +227,12 @@ public class JFrameInventario extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+                                .addComponent(jTextNombreProducto, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel4)
                                     .addGap(186, 186, 186)
-                                    .addComponent(jTextField4)))
+                                    .addComponent(jTextPrecio)))
                             .addComponent(jLabel1))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -221,7 +242,7 @@ public class JFrameInventario extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
@@ -229,15 +250,15 @@ public class JFrameInventario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextExistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
@@ -249,16 +270,27 @@ public class JFrameInventario extends javax.swing.JFrame {
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 120, -1, 480));
+        jPanel1.add(jTextBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 280, -1));
 
-        jTextField6.setText("jTextField6");
-        jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 280, -1));
-
-        jButton5.setText("jButton5");
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, 100, -1));
+        jBuscar.setText("Buscar");
+        jBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBuscarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, 100, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel5.setText("Control de Inventario");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, -1, -1));
+
+        jButton1.setText("Reiniciar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -283,9 +315,9 @@ public class JFrameInventario extends javax.swing.JFrame {
         categoria = jComboCategoria.getItemAt(jComboCategoria.getSelectedIndex())
                 .getId_categoria();
         
-    String nom = jTextField3.getText();
-    String precio = jTextField4.getText();
-    String existen = jTextField5.getText();
+    String nom = jTextNombreProducto.getText();
+    String precio = jTextPrecio.getText();
+    String existen = jTextExistencia.getText();
 
     if (categoria == 0 || nom.equals("") || precio.equals("") || existen.equals("")) {
         JOptionPane.showMessageDialog(rootPane, "Todos los campos son obligatorios");
@@ -311,6 +343,7 @@ public class JFrameInventario extends javax.swing.JFrame {
         }
               try {
                   ObtenerProductos();
+                  limpiarCampos();
               } catch (SQLException ex) {
                   Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
               }
@@ -322,30 +355,48 @@ public class JFrameInventario extends javax.swing.JFrame {
     private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
 
         try {
-        // Obtener el índice de la fila seleccionada
-        int fila = jTable1.getSelectedRow();
-        
-        // Verificar si se seleccionó una fila
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Seleccione un autor para editar");
-        } else {
-            // Obtener los datos del seleccionado
-           int id = Integer.parseInt(jTable1.getValueAt(fila, 0).toString());
-            int idcatego = Integer.parseInt(jTable1.getValueAt(fila, 1).toString());
-            String nombre = jTable1.getValueAt(fila, 2).toString();
-            Double precio = Double.parseDouble( jTable1.getValueAt(fila, 3).toString());
-            int existencia = Integer.parseInt(jTable1.getValueAt(fila, 4).toString());
+            // Obtener el índice de la fila seleccionada
+            int fila = jTable1.getSelectedRow();
 
-            // Mostrar los datos del autor seleccionado en los campos de texto
-            jTextField1.setText(String.valueOf(id));
-        //    jTextField2.setText(String.valueOf(idcatego));
-            jTextField3.setText(nombre);
-            jTextField4.setText(String.valueOf(precio));
-            jTextField5.setText(String.valueOf(existencia));
+            // Verificar si se seleccionó una fila
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(rootPane, "Seleccione un autor para editar");
+            } else {
+                // Obtener los datos del seleccionado
+                int id = Integer.parseInt(jTable1.getValueAt(fila, 0).toString());
+
+                int idcatego = Integer.parseInt(jTable1.getValueAt(fila, 1).toString());
+                String nombre = jTable1.getValueAt(fila, 2).toString();
+                Double precio = Double.parseDouble(jTable1.getValueAt(fila, 3).toString());
+                int existencia = Integer.parseInt(jTable1.getValueAt(fila, 4).toString());
+
+                // Mostrar los datos del autor seleccionado en los campos de texto
+                jTextProducto.setText(String.valueOf(id));
+                jComboCategoria.setSelectedItem(idcatego);
+                jTextNombreProducto.setText(nombre);
+                jTextPrecio.setText(String.valueOf(precio));
+                jTextExistencia.setText(String.valueOf(existencia));
+
+                for (int i = 0; i < jComboCategoria.getItemCount(); i++) {
+                    Object item = jComboCategoria.getItemAt(i); // Obtener el ítem del ComboBox
+
+                    // Si el ítem es una clase (por ejemplo, Categoria) y tiene un método para obtener el ID
+                    if (item instanceof Categorias) {
+                        Categorias categoria = (Categorias) item;
+                        if (categoria.getId_categoria() == idcatego) {
+                            jComboCategoria.setSelectedIndex(i); // Seleccionar el índice
+                            break;
+                        }
+                    } else if (item.toString().equals(String.valueOf(idcatego))) { // Si el ComboBox solo tiene Strings o valores simples
+                        jComboCategoria.setSelectedIndex(i);
+                        break;
+                    }
+
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } catch (Exception ex) {
-        Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
-    }
         // TODO add your handling code here:
     }//GEN-LAST:event_jBEditarActionPerformed
 
@@ -353,24 +404,24 @@ public class JFrameInventario extends javax.swing.JFrame {
       
         int categoria = 0;
         
-        categoria = jComboCategoria.getItemAt(jComboCategoria.getSelectedIndex())
+    categoria = jComboCategoria.getItemAt(jComboCategoria.getSelectedIndex())
                 .getId_categoria();
         
-    String nom = jTextField3.getText();
-    String precio = jTextField4.getText();
-    String existen = jTextField5.getText();
+    String nom = jTextNombreProducto.getText();
+    String precio = jTextPrecio.getText();
+    String existen = jTextExistencia.getText();
 
         
          // OBTIENE EL VALOR DE ID EN CADENA DE TEXTO PARA VER SI ESTA VACIO 
          // LUEGO SE RETORNA Y SE CONVIERTE EN INT
-        String idAText = jTextField1.getText();
-        if (idAText.isEmpty()) {
-        JOptionPane.showMessageDialog(rootPane, "Seleccione un autor para actualizar");
+        String id_p = jTextProducto.getText();
+        if (id_p.isEmpty()) {
+        JOptionPane.showMessageDialog(rootPane, "Seleccione un producto para actualizar");
          return;
         }
         
         // convierte en una cadena deentero
-        int id = Integer.parseInt(idAText);
+        int id_producto = Integer.parseInt(id_p);
 
          
         if (categoria == 0 || nom.equals("") || precio.equals("") || existen.equals("")) {
@@ -385,20 +436,20 @@ public class JFrameInventario extends javax.swing.JFrame {
         
             
             // Crear un objeto Autor con los nuevos datos
-            Producto pro = new Producto(id, categoria,nom, precioo,existenn);
+            Producto pro = new Producto(id_producto, categoria,nom, precioo,existenn);
             
             // Actualizar el autor en la base de datos
             DAOProducto dao = new DAOProducto();
             int resultado = dao.Actualizar(pro);
             
             if (resultado == 0) {
-                JOptionPane.showMessageDialog(rootPane, "Autor actualizado correctamente");
+                JOptionPane.showMessageDialog(rootPane, "Producto actualizado correctamente");
                 
                 // Actualizar la fila correspondiente al en la tabla
                 DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                 for (int i = 0; i < model.getRowCount(); i++) {
-                    if (Integer.parseInt(model.getValueAt(i, 0).toString()) == id) {
-                        model.setValueAt(id, i, 1); // Nombres
+                    if (Integer.parseInt(model.getValueAt(i, 0).toString()) == id_producto) {
+                        model.setValueAt(categoria, i, 1); // Nombres
                         model.setValueAt(nom, i, 2); // Apellidos
                         model.setValueAt(precioo, i, 3); // Email
                         model.setValueAt(existenn, i, 4); // Cedula
@@ -409,7 +460,7 @@ public class JFrameInventario extends javax.swing.JFrame {
                 // Limpiar los campos de texto después de la actualización
                 limpiarCampos();
             } else {
-                JOptionPane.showMessageDialog(rootPane, "No se pudo actualizar el autor");
+                JOptionPane.showMessageDialog(rootPane, "No se pudo actualizar el producto");
             }
         } catch (SQLException ex) {
             Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
@@ -459,12 +510,55 @@ public class JFrameInventario extends javax.swing.JFrame {
     private void jComboCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboCategoriaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboCategoriaActionPerformed
+
+    private void jBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBuscarActionPerformed
+            
+        if(jBuscar.getText().contentEquals("")){
+          JOptionPane.showMessageDialog(rootPane, "Ingrese un producto");
+            try {
+                ObtenerProductos();
+            } catch (SQLException ex) {
+                Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            }else {
+            try{
+                String datoprod = jTextBuscar.getText();
+                
+                buscarDatosProductos(datoprod);
+             
+                
+            }catch(SQLException ex){
+                 Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null,ex);
+            }
+            }
+
+        // TODO add your handling code here:
+
+
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBuscarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            ObtenerProductos();
+               jTextBuscar.setText("");
+            // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameInventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
   public void limpiarCampos(){
-    jTextField1.setText("");
-   // jTextField2.setText("");
-    jTextField3.setText("");
-    jTextField4.setText("");
-    jTextField5.setText("");
+
+     
+      jTextProducto.setText("");
+    jComboCategoria.setSelectedIndex(0);
+
+    jTextNombreProducto.setText("");
+    jTextPrecio.setText("");
+    jTextExistencia.setText("");
     }
     /**
      * @param args the command line arguments
@@ -510,7 +604,8 @@ public class JFrameInventario extends javax.swing.JFrame {
     private javax.swing.JButton jBAgregar;
     private javax.swing.JButton jBEditar;
     private javax.swing.JButton jBorrar;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jBuscar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<Categorias> jComboCategoria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -522,10 +617,10 @@ public class JFrameInventario extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextBuscar;
+    private javax.swing.JTextField jTextExistencia;
+    private javax.swing.JTextField jTextNombreProducto;
+    private javax.swing.JTextField jTextPrecio;
+    private javax.swing.JTextField jTextProducto;
     // End of variables declaration//GEN-END:variables
 }
