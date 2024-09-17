@@ -36,15 +36,7 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
-			<staticText>
-				<reportElement x="170" y="40" width="220" height="30" uuid="ebce0dac-598e-451b-8b4b-c9a862377b75"/>
-				<textElement>
-					<font size="20" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Comercial Cienfuegos]]></text>
-			</staticText>
-		</band>
+		<band height="79" splitType="Stretch"/>
 	</title>
 	<pageHeader>
 		<band height="59" splitType="Stretch">
