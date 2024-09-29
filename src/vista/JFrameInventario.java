@@ -4,7 +4,6 @@
  */
 package vista;
 
-import controlador.Home;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.sql.Date;
@@ -595,7 +594,7 @@ public class JFrameInventario extends javax.swing.JFrame {
 
     private void jLabelBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelBackMouseClicked
 
-        Home _home = new Home(); // TODO add your handling code here:
+        JframeHome _home = new JframeHome(); // TODO add your handling code here:
         _home.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabelBackMouseClicked

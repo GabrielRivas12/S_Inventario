@@ -4,7 +4,7 @@
  */
 package controlador;
 
-import modeloConexion.Conexion; // Importar la clase para la conexión
+import modelo.Conexion; // Importar la clase para la conexión
 import java.sql.CallableStatement; // Usar java.sql en lugar de com.mysql.cj.jdbc
 import java.sql.Connection; // Importar Connection
 import java.sql.ResultSet; // Importar ResultSet

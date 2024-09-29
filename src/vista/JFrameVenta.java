@@ -4,7 +4,6 @@
  */
 package vista;
 
-import controlador.Home;
 import modelo.Cliente;
 import controlador.DAOModoPago;
 import controlador.DAOProducto;
@@ -30,7 +29,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modeloConexion.Conexion;
+import modelo.Conexion;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -697,7 +696,7 @@ public class JFrameVenta extends javax.swing.JFrame {
 
     private void jLabelBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelBackMouseClicked
 
-        Home _home = new Home(); // TODO add your handling code here:
+        JframeHome _home = new JframeHome(); // TODO add your handling code here:
         _home.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabelBackMouseClicked

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package controlador;
+package vista;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -22,13 +22,13 @@ import vista.JFrameReporte;
  *
  * @author gabriel rivas
  */
-public class Home extends javax.swing.JFrame {
+public class JframeHome extends javax.swing.JFrame {
 
     private ImageIcon imagen;
     private Icon icono;
 
 //==============================================================================//
-    public Home() {
+    public JframeHome() {
         initComponents();
        this.setLocationRelativeTo(null);
         this.setSize(1550, 1000);
@@ -138,7 +138,7 @@ public class Home extends javax.swing.JFrame {
             ven.setVisible(true);
             this.dispose();
         } catch (SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JframeHome.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_Imagen1MouseClicked
@@ -149,7 +149,7 @@ public class Home extends javax.swing.JFrame {
             JFrameInventario inv = new JFrameInventario(); // TODO add your handling code here:
             inv.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JframeHome.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // TODO add your handling code here:
@@ -161,7 +161,7 @@ public class Home extends javax.swing.JFrame {
             JFrameSalida _salida = new JFrameSalida(); // TODO add your handling code here:
             _salida.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JframeHome.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // TODO add your handling code here:
@@ -190,21 +190,23 @@ public class Home extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JframeHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JframeHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JframeHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JframeHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Home().setVisible(true);
+                new JframeHome().setVisible(true);
             }
         });
     }

@@ -4,7 +4,6 @@
  */
 package vista;
 
-import controlador.Home;
 import java.awt.Image;
 import controlador.DAOVenta;
 import net.sf.jasperreports.engine.JRException;
@@ -113,7 +112,7 @@ public class JFrameReporte extends javax.swing.JFrame {
 
     private void jLabelBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelBackMouseClicked
 
-        Home _home = new Home(); // TODO add your handling code here:
+        JframeHome _home = new JframeHome(); // TODO add your handling code here:
         _home.setVisible(true);
         this.dispose();
 

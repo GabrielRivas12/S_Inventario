@@ -6,7 +6,7 @@ package controlador;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import modeloConexion.Conexion;
+import modelo.Conexion;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;

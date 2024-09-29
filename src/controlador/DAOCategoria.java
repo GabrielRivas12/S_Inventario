@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controlador;
-import modeloConexion.Conexion;
+import modelo.Conexion;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
