@@ -10,7 +10,7 @@ import java.awt.Image;
 import java.sql.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import modelo.DAOProducto;
+import controlador.DAOProducto;
 import modelo.Producto;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -21,7 +21,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import modelo.DAOCategoria;
+import controlador.DAOCategoria;
 import modelo.Categorias;
 
 /**

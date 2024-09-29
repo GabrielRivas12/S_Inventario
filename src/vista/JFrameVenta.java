@@ -6,9 +6,9 @@ package vista;
 
 import controlador.Home;
 import modelo.Cliente;
-import modelo.DAOModoPago;
-import modelo.DAOProducto;
-import modelo.DAOVenta;
+import controlador.DAOModoPago;
+import controlador.DAOProducto;
+import controlador.DAOVenta;
 import modelo.ModoPago;
 import modelo.Producto;
 import modelo.Venta;

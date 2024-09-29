@@ -6,7 +6,7 @@ package vista;
 
 import controlador.Home;
 import java.awt.Image;
-import modelo.DAOVenta;
+import controlador.DAOVenta;
 import net.sf.jasperreports.engine.JRException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

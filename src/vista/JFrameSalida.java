@@ -15,8 +15,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.DAODetalle;
-import modelo.DAOProducto;
+import controlador.DAODetalle;
+import controlador.DAOProducto;
 import modelo.Detalle;
 import modelo.Producto;
 
