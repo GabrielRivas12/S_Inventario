@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_salida" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e87ce8b3-f8b7-4b8b-a59c-4967509cae71">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.jrdax"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="Dataset1" uuid="1d9f2b50-1a6b-45e5-9f90-1a36180e34ef">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.jrdax"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT DATE_FORMAT(f.fecha, '%Y-%m-%d') AS fecha_str, 
+       SUM(d.cantidad * d.precioventa) AS total_generado
+FROM detalle d
+JOIN factura f ON d.num_factura = f.num_factura
+WHERE f.fecha >= CURDATE() - INTERVAL 7 DAY
+GROUP BY DATE_FORMAT(f.fecha, '%Y-%m-%d') 
+ORDER BY DATE_FORMAT(f.fecha, '%Y-%m-%d') DESC;
+]]>
+		</queryString>
+		<field name="fecha_str" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="fecha_str"/>
+			<property name="com.jaspersoft.studio.field.label" value="fecha_str"/>
+		</field>
+		<field name="total_generado" class="java.lang.Double">
+			<property name="com.jaspersoft.studio.field.name" value="total_generado"/>
+			<property name="com.jaspersoft.studio.field.label" value="total_generado"/>
+		</field>
+	</subDataset>
+	<queryString>
+		<![CDATA[SELECT d.num_factura, 
+       SUM(d.cantidad * d.precioventa) AS total_generado
+FROM detalle d
+JOIN factura f ON d.num_factura = f.num_factura
+WHERE f.fecha >= CURDATE() - INTERVAL 7 DAY
+GROUP BY d.num_factura
+]]>
+	</queryString>
+	<field name="num_factura" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="num_factura"/>
+		<property name="com.jaspersoft.studio.field.label" value="num_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detalle"/>
+	</field>
+	<field name="total_generado" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total_generado"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_generado"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="11" splitType="Stretch"/>
+	</title>
+	<detail>
+		<band height="21" splitType="Stretch"/>
+	</detail>
+	<summary>
+		<band height="250" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="20" y="60" width="370" height="190" uuid="d0daa434-2862-427f-bc87-fa4f13033528"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Dataset1" uuid="8b22dc26-eacb-40bf-b8da-855bc3337ed4">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Generado los ultimos 7 dia"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{fecha_str}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total_generado}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

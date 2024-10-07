@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import controlador.DAODetalle;
 
 /**
  *
@@ -46,8 +47,9 @@ public class JFrameReporte extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jBminimaExistencia = new javax.swing.JButton();
+        jBGeneradodias = new javax.swing.JButton();
         jLabelBack = new javax.swing.JLabel();
+        jBminimaExistencia1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,13 +64,13 @@ public class JFrameReporte extends javax.swing.JFrame {
         jLabel1.setText("Reportes");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 70, -1));
 
-        jBminimaExistencia.setText("Imprimir existencia minima");
-        jBminimaExistencia.addActionListener(new java.awt.event.ActionListener() {
+        jBGeneradodias.setText("Imprimir generado en 7 dias");
+        jBGeneradodias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBminimaExistenciaActionPerformed(evt);
+                jBGeneradodiasActionPerformed(evt);
             }
         });
-        jPanel2.add(jBminimaExistencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, -1, -1));
+        jPanel2.add(jBGeneradodias, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, -1, -1));
 
         jLabelBack.setText("jLabel2");
         jLabelBack.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -77,6 +79,14 @@ public class JFrameReporte extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jLabelBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 20, 20));
+
+        jBminimaExistencia1.setText("Imprimir existencia minima");
+        jBminimaExistencia1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBminimaExistencia1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jBminimaExistencia1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 390, 210));
 
@@ -98,17 +108,20 @@ public class JFrameReporte extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBminimaExistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBminimaExistenciaActionPerformed
-        DAOVenta daoventa = new DAOVenta();
+    private void jBGeneradodiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGeneradodiasActionPerformed
+        DAODetalle daodetalle = new DAODetalle();
+        
         try {
-            daoventa.productosExistenciabaja();
+            daodetalle.gananaciasDias();
         } catch (JRException ex) {
             Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
 
         }
+        
+        
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jBminimaExistenciaActionPerformed
+    }//GEN-LAST:event_jBGeneradodiasActionPerformed
 
     private void jLabelBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelBackMouseClicked
 
@@ -118,6 +131,18 @@ public class JFrameReporte extends javax.swing.JFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabelBackMouseClicked
+
+    private void jBminimaExistencia1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBminimaExistencia1ActionPerformed
+              DAOVenta daoventa = new DAOVenta();
+        try {
+            daoventa.productosExistenciabaja();
+        } catch (JRException ex) {
+            Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBminimaExistencia1ActionPerformed
 
     private void mostrarImagen(JLabel lbl, String ruta) {
         this.imagen = new ImageIcon(ruta);
@@ -168,7 +193,8 @@ public class JFrameReporte extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBminimaExistencia;
+    private javax.swing.JButton jBGeneradodias;
+    private javax.swing.JButton jBminimaExistencia1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelBack;
     private javax.swing.JPanel jPanel1;

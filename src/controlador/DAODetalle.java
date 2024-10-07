@@ -12,9 +12,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import modelo.Database;
 import modelo.Detalle;
-import modelo.Detalle;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 
 /**
@@ -96,5 +102,25 @@ public class DAODetalle {
             System.out.println("Error"+ e);
         }
         return filas;
+    }
+     
+      public void gananaciasDias()throws JRException{
+        conectar.Conectar();
+        
+        //ruta 
+        String path =  "src/Reportes/Blank_salida.jrxml";
+        
+        JasperReport jr;
+        
+        try{
+            jr = JasperCompileManager.compileReport(path);
+            JasperPrint mostrarReporte2 = JasperFillManager.fillReport
+                    (jr,null,conectar.Conectar());
+            
+            JasperViewer.viewReport(mostrarReporte2, false);
+        }catch(JRException e){
+            JOptionPane.showMessageDialog(null, e);
+            System.out.println("Error" + e);
+        }
     }
 }
