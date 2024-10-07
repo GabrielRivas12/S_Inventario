@@ -4,7 +4,6 @@
  */
 package vista;
 
-import modelo.Cliente;
 import controlador.DAOModoPago;
 import controlador.DAOProducto;
 import controlador.DAOVenta;
@@ -14,28 +13,16 @@ import modelo.Venta;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.Conexion;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -104,7 +91,7 @@ public class JFrameVenta extends javax.swing.JFrame {
         jTextproducto.setText(" ");
         jTextPrecio.setText(" ");
         jTextExistenciaProducto.setText(" ");
-        jTextCantProducto.setText("0");
+        jTextCantProducto.setText(" ");
     }
 
     //----------------------Metodo para llenar combobox modo pago------------///
@@ -176,19 +163,18 @@ public class JFrameVenta extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabelTotal = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jComboModoPago = new javax.swing.JComboBox<>();
         jBguardarVenta = new javax.swing.JButton();
         jBCancelar = new javax.swing.JButton();
-        jComboModoPago = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
         jLabelFecha = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabelBack = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTableProductosVenta = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        jLabelTotal = new javax.swing.JLabel();
 
         jPanel7.setBackground(new java.awt.Color(211, 217, 254));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -199,6 +185,23 @@ public class JFrameVenta extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(159, 175, 254));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(14, 94, 237), 5));
+
+        jTextDbuscarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextDbuscarProductoActionPerformed(evt);
+            }
+        });
+        jTextDbuscarProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextDbuscarProductoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextDbuscarProductoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextDbuscarProductoKeyTyped(evt);
+            }
+        });
 
         jBDbuscarProducto.setText("Buscar");
         jBDbuscarProducto.addActionListener(new java.awt.event.ActionListener() {
@@ -382,16 +385,16 @@ public class JFrameVenta extends javax.swing.JFrame {
         jLabel10.setText("Datos del producto ");
         jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 210, 30));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 529, 320));
+        jLabel6.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 14)); // NOI18N
+        jLabel6.setText("Modo de Pago");
+        jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, -1, -1));
 
-        jPanel5.setBackground(new java.awt.Color(159, 175, 254));
-        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(37, 108, 240), 5));
-
-        jLabelTotal.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
-        jLabelTotal.setText("0");
-
-        jLabel8.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 14)); // NOI18N
-        jLabel8.setText("Total:");
+        jComboModoPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboModoPagoActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jComboModoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 340, -1, -1));
 
         jBguardarVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jBguardarVenta.setText("Guardar");
@@ -400,6 +403,7 @@ public class JFrameVenta extends javax.swing.JFrame {
                 jBguardarVentaActionPerformed(evt);
             }
         });
+        jPanel4.add(jBguardarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, 90, 31));
 
         jBCancelar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jBCancelar.setText("Cancelar");
@@ -408,55 +412,9 @@ public class JFrameVenta extends javax.swing.JFrame {
                 jBCancelarActionPerformed(evt);
             }
         });
+        jPanel4.add(jBCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 380, 90, 31));
 
-        jComboModoPago.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboModoPagoActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 14)); // NOI18N
-        jLabel6.setText("Modo de Pago");
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboModoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabelTotal)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBguardarVenta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBguardarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTotal)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(jComboModoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 640, 529, -1));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 529, 450));
 
         jLabelFecha.setFont(new java.awt.Font("MS Reference Sans Serif", 2, 18)); // NOI18N
         jLabelFecha.setText("Fecha");
@@ -501,6 +459,14 @@ public class JFrameVenta extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 300, 660, 450));
 
+        jLabel8.setFont(new java.awt.Font("MS Reference Sans Serif", 1, 14)); // NOI18N
+        jLabel8.setText("Total:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1260, 760, -1, -1));
+
+        jLabelTotal.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        jLabelTotal.setText("0");
+        jPanel1.add(jLabelTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 760, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -524,6 +490,12 @@ public class JFrameVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextIdProductoActionPerformed
 
     private void jBbuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbuscarProductoActionPerformed
+        try {
+            ObtenerProductos();
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         jDialogProducto.setSize(680, 400);
         jDialogProducto.setVisible(true);
         jDialogProducto.setLocationRelativeTo(null);
@@ -590,12 +562,22 @@ public class JFrameVenta extends javax.swing.JFrame {
 
     private void jBagregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBagregarProductoActionPerformed
 
-        if (jTextCantProducto.getText().contentEquals("0")) {
-            JOptionPane.showMessageDialog(rootPane, "Escriba la cantidad de producto");
+         // Obtener la cantidad disponible desde la base de datos para el producto (por ejemplo, usando un método de consulta SQL)
+    int  cantidadDisponible = Integer.parseInt(jTextExistenciaProducto.getText().trim());
 
-        } else {
+    // Obtener la cantidad solicitada por el usuario
+    int cantidadSolicitada = Integer.parseInt(jTextCantProducto.getText().trim());
+    
+    
+     // Validar que la cantidad solicitada no sea mayor que la cantidad disponible en el inventario
+    if (cantidadSolicitada <= 0) {
+        JOptionPane.showMessageDialog(rootPane, "La cantidad solicitada debe ser mayor que 0.");
+    } else if (cantidadSolicitada > cantidadDisponible) {
+        JOptionPane.showMessageDialog(rootPane, "No hay suficientes productos en stock. Cantidad disponible: " + cantidadDisponible);
+    } else {
+        item += 1;
+        
 
-            item += 1;
 
             objetoVentaTabla[0] = item;
 
@@ -616,6 +598,7 @@ public class JFrameVenta extends javax.swing.JFrame {
             modeloTablaVenta.addRow(objetoVentaTabla);
 
             limpiarCamposProductos();
+            
 
         }
         // TODO add your handling code here:
@@ -625,6 +608,8 @@ public class JFrameVenta extends javax.swing.JFrame {
 
         try {
             guardarVenta();
+            total = 0.0;
+            jLabelTotal.setText(total.toString());
 
         } catch (SQLException ex) {
             Logger.getLogger(JFrameVenta.class.getName()).
@@ -700,6 +685,48 @@ public class JFrameVenta extends javax.swing.JFrame {
         _home.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabelBackMouseClicked
+
+    private void jTextDbuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextDbuscarProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextDbuscarProductoActionPerformed
+
+    private void jTextDbuscarProductoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextDbuscarProductoKeyPressed
+        // TODO add your handling code here:
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextDbuscarProductoKeyPressed
+
+    private void jTextDbuscarProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextDbuscarProductoKeyTyped
+
+        
+
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextDbuscarProductoKeyTyped
+
+    private void jTextDbuscarProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextDbuscarProductoKeyReleased
+         String datoprod = jTextDbuscarProducto.getText().trim();
+    
+    if (datoprod.isEmpty()) {
+        // Si el campo de búsqueda está vacío, muestra todos los productos o un mensaje
+        try {
+            ObtenerProductos();
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } else {
+        // Realiza la búsqueda dinámica según el texto ingresado
+        try {
+            buscarDatosProductos(datoprod);
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrameVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextDbuscarProductoKeyReleased
 
     public void guardarDetalleVenta() throws SQLException {
 
@@ -798,35 +825,45 @@ public class JFrameVenta extends javax.swing.JFrame {
         if (jLabelFecha.getText().contentEquals("")
                 || numpago == 0 || jTableProductosVenta.getRowCount() == 0) {
 
-            //  JOptionPane.showMessageDialog(rootPane, "Se requiere datos del cliente y producto,"
-            //        + "fecha y formato de pago");
+           
+        }
+         try {
+        // Crear el objeto Venta con los datos necesarios
+        Venta vent = new Venta(numpago, fech);
+
+        // Instancia de DAOVenta
+        DAOVenta daoventa = new DAOVenta();
+
+        // Insertar la venta en la base de datos
+        if (daoventa.insertarVenta(vent) == 0) {
+            // Si la inserción es exitosa, obtener el número de factura
+            numfac = daoventa.obtenerUltimoNumFactura();
+             actualizaExistencia();
         } else {
-            try {
-
-                Venta vent = new Venta(numpago, fech);
-
-                DAOVenta daoventa = new DAOVenta();
-
-                if (daoventa.insertarVenta(vent) == 0) {
-                    //   JOptionPane.showMessageDialog(rootPane, "Se ha registrado la venta");
-
-                    numfac = daoventa.obtenerUltimoNumFactura();
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "Ha ocurrido un error, no se inserto en venta");
-
-                }
-
-            } catch (HeadlessException | SQLException e) {
-                JOptionPane.showMessageDialog(rootPane, "No se agregaro" + e);
-            }
-
-            //   JOptionPane.showMessageDialog(rootPane, "Registro listo para agregar en factura" + numfac);
-            guardarDetalleVenta();
-
-            actualizaExistencia();
+            JOptionPane.showMessageDialog(rootPane, "Ha ocurrido un error, no se insertó la venta");
+            return;  // Salir del método si no se insertó la venta correctamente
         }
 
+    } catch (HeadlessException | SQLException e) {
+        JOptionPane.showMessageDialog(rootPane, "Error al guardar la venta: " + e.getMessage());
+        return;  // Salir del método si ocurre una excepción
     }
+
+    try {
+        // Guardar los detalles de la venta
+        guardarDetalleVenta();
+
+       
+       
+
+                
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(rootPane, "Error al guardar los detalles de la venta o actualizar existencias: " + e.getMessage());
+    }
+}
+        
+
+    
 
     private void mostrarImagen(JLabel lbl, String ruta) {
         this.imagen = new ImageIcon(ruta);
@@ -909,7 +946,6 @@ public class JFrameVenta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane3;
